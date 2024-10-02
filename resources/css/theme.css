@@ -1,0 +1,19 @@
+:root {
+    --color-azul-marino: rgba(1, 61, 183, 255);
+    --color-blanco: #ffffff;
+    --color-blanco-humo: #E2E8F0;
+    --color-negro: #000000;
+    --color-celeste-claro-1: rgba(217, 231, 250, 1);
+    --color-celeste-claro-2: rgba(236, 243, 252, 1);
+    --color-azul-claro: rgba(50, 132, 255, 1);
+    --color-azul-oscuro: #02146A;
+    --color-rojo: #ff0000;
+
+    --font-size-12: 12px;
+    --font-size-14: 14px;
+    --font-size-16: 16px;
+    --font-size-18: 18px;
+
+    --fuente-letra: Poppins, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+

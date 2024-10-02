@@ -1,0 +1,15 @@
+@import "../theme.css";
+
+*{
+    padding: 0px;
+    margin: 0px;
+}
+
+.contenido{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--color-blanco);
+    color: var(--color-negro);
+    height: 100vh;
+}

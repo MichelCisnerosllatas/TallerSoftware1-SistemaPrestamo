@@ -1,19 +1,18 @@
 <?php
 
 namespace App\Http\Controllers\Usuario;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class UsuarioController extends Controller
+class PerfilController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
-        return view('Usuario.index');
-
-    }
-
-    public function vistalogin(){
-        return view("login");
+        return view('Usuario.perfil');
     }
 
     /**

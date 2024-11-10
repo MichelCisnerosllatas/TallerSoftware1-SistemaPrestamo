@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Usuario;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use mysql_xdevapi\Exception;
 
 class UsuarioController extends Controller
 {
@@ -12,8 +14,28 @@ class UsuarioController extends Controller
 
     }
 
-    public function vistalogin(){
-        return view("login");
+    public function vistaregistro(){
+        return view("Usuario.registro");
+    }
+
+    public function createUsuarioPrincipal(Request $request) {
+        $message = "";
+        try{
+            $api = env('API_URL') . 'UsuarioController.php';
+            $response = Http::post($api, [
+                "Accion" =>  "1",
+                "IdRol" => $request->input('IdRol'),
+                "IdPersona" => $request->input('IdPersona'),
+                "Clave" => $request->input('Clave'),
+                "Token" => $request->input('Token'),
+                "Login" => $request->input('Login'),
+                "FechaRegistro" => $request->input('FechaRegistro')
+            ]);
+        }catch(\Exception $ex){
+
+        } finally {
+
+        }
     }
 
     /**

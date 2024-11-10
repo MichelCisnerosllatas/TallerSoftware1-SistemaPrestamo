@@ -10,4 +10,9 @@ class PrestamosController extends Controller
     {
         return view('Prestamos.index');
     }
+
+    function listarprestamos()
+    {
+
+    }
 }

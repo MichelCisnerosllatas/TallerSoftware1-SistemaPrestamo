@@ -1,18 +1,27 @@
-<!doctype html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    @vite([
-        'resources/css/Prestamos/stylePrestamos.css',
-        'resources/js/Prestamos/appPrestamos.js',
-    ])
-    <title>Caja</title>
-</head>
-<body>
-<div class="contenido">
-    <h3>Yo Soy PRESTAMOS</h3>
+<div class="contenido_Prestamos">
+    <div class="contenido_Prestamos1">
+        <button id="btn_nuevoprestamo">Nuevo Prestamo</button>
+        <label for="cars">Buscar Por:</label>
+        <select name="cars" id="cars">
+            <option value="volvo">Nombre</option>
+            <option value="saab">Monto</option>
+        </select>
+    </div>
+
+    <div class="contenido_Prestamos2">
+        <input class="txtinput_prestamo" placeholder="Escribe Aqui ...">
+    </div>
+
+    <div class="contenido_Prestamos3">
+        <label for="cars">Filtrar por:</label>
+        <select>
+            <option value="Todo">Todo</option>
+            <option value="Activos">Activos</option>
+            <option value="Inactivos">Inactivos</option>
+            <option value="Pendiente">Pendiente</option>
+        </select>
+    </div>
 </div>
-</body>
-</html>
+
+<!-- Aquí se incluye el modal -->
+@include('Prestamos.nuevoPrestamo')

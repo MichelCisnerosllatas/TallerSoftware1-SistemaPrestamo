@@ -23,18 +23,13 @@ Route::get('/', function () {
 Route::get('/login', [LoginController::class, 'vistalogin'])->name('login');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Rutas que requieren autenticación
-
-
-
-//Route::get('/Principal', [LoginController::class, 'vistaprincipal'])->name('principal')->middleware('auth');
-
 Route::get('/Principal', [LoginController::class, 'vistaprincipal'])->name('principal');
 Route::get("/Cliente", [ClienteController::class, 'index'])->name('cliente');
 Route::get("/Caja", [CajaController::class, 'index'])->name('caja');
 Route::get("/Dashboard", [DasboardController::class, 'index'])->name('dashboard');
 Route::get("/Empresa", [EmpresaController::class, 'index'])->name('empresa');
 Route::get("/Pagos", [PagosController::class, 'index'])->name('pagos');
+Route::get("/RegistroUsuario", [UsuarioController::class, 'vistaregistro'])->name('registrousuario');
 Route::get("/Usuario", [UsuarioController::class, 'index'])->name('usuario');
 Route::get("/Permisos", [PermisoController::class, 'index'])->name('permisos');
 Route::get("/Prestamos", [PrestamosController::class, 'index'])->name('prestamos');

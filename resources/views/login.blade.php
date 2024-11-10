@@ -33,9 +33,19 @@
             <div class="text-center mt-4">
                 <a href="#" class="text-blue-500 hover:underline">Olvidastes tu contraseña?</a>
             </div>
+
             <div class="text-center mt-2">
-                <span>No tienes Cuenta? <a href="{{route('principal')}}" class="text-blue-500 hover:underline">Registrate aqui</a></span>
+                <span>No tienes Cuenta?
+                    <a href="{{ route('registrousuario') }}" id="registro-enlace" class="text-blue-500 hover:underline">
+                        Registrate aqui
+                    </a>
+                </span>
             </div>
+
+
+{{--            <div class="text-center mt-2">--}}
+{{--                <span>No tienes Cuenta? <a href="{{route('registrousuario')}}" target="_blank" class="text-blue-500 hover:underline">Registrate aqui</a></span>--}}
+{{--            </div>--}}
         </div>
     </div>
 </body>

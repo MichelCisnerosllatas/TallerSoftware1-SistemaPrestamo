@@ -1,15 +1,65 @@
 function init() {
     const btnmenu = document.getElementById('btnmenu');
-    const nav = document.getElementById('nav');
+    const btndrawer = document.getElementById('btndrawer');
+    const overlay = document.getElementById('overlay');
 
-    btnmenu.addEventListener('click', toggleMenu); // Agrega el evento al botón
+    btnmenu.addEventListener('click', function() {
+        if (window.innerWidth <= 600){
+            toggle_nav_cel();
+        } else {
+            abrir_nav_PC();
+        }
+    });
+
+    btndrawer.addEventListener('click', function() {
+        cerrar_nav_cel();
+    });
+
+    overlay.addEventListener('click', function() {
+        cerrar_nav_cel(); //click en el fondo se cierra el drawer
+    });
+
+    // Cerrar el menú al hacer clic en las opciones de navegación en dispositivos móviles
+    document.querySelectorAll('.menu_navegacion a').forEach(link => {
+        link.addEventListener('click', function() {
+            if (window.innerWidth <= 600) {
+                cerrar_nav_cel(); // Cerrar el menú después de hacer clic en una opción de navegación
+            }
+        });
+    });
+
     navegacionPaginas();
     setupInitialRedirect();
 }
 
-function toggleMenu() {
+// Función para alternar el menú en dispositivos móviles
+function toggle_nav_cel() {
+    const nav = document.getElementById('nav');
+    const overlay = document.getElementById('overlay');
+    if (nav.classList.contains('menu-open')) {
+        cerrar_nav_cel(); // Si el menú está abierto, lo cerramos
+    } else {
+        abrir_nav_cel(); // Si el menú está cerrado, lo abrimos
+    }
+}
+
+function abrir_nav_PC() {
     const nav = document.getElementById('nav');
     nav.classList.toggle('collapse'); // Alterna la clase 'collapse'
+}
+
+function abrir_nav_cel() {
+    const nav = document.getElementById('nav');
+    const overlay = document.getElementById('overlay');
+    nav.classList.add('menu-open'); // Mostrar el menú en dispositivos móviles
+    overlay.style.display = 'block'; // Mostrar el overlay
+}
+
+function cerrar_nav_cel() {
+    const nav = document.getElementById('nav');
+    const overlay = document.getElementById('overlay');
+    nav.classList.remove('menu-open'); // Ocultar el menú en dispositivos móviles
+    overlay.style.display = 'none'; // Ocultar el overlay
 }
 
 function navegacionPaginas() {
@@ -47,6 +97,9 @@ function navegacionPaginas() {
                 .then(data => {
                     contentDiv.innerHTML = data; // Cargar el contenido en el div
                     document.title = `Sistema Prestamos | ${title}`; // nombre que sale en el titulo Navegador
+
+                    // Vuelve a inicializar el modal después de cargar el contenido por AJAX
+                    //iniciarPrestamo();
                 })
                 .catch(error => {
                     console.error('Error al cargar el contenido:', error);
@@ -68,158 +121,4 @@ function setupInitialRedirect() {
         }
     }
 }
-
-
 document.addEventListener('DOMContentLoaded', init);
-
-
-
-
-
-
-
-
-// // SIDEBAR TOGGLE
-//
-// // Estas variables deben estar globales
-// let sidebarOpen = false;
-// let sidebar = null;
-// let overlay = null;
-//
-// function openSidebar() {
-//     if (!sidebarOpen && sidebar && overlay) {
-//         sidebar.classList.add('sidebar-responsive');
-//         overlay.classList.add('active');
-//         sidebarOpen = true;
-//     }
-// }
-//
-// function closeSidebar() {
-//     if (sidebarOpen && sidebar && overlay) {
-//         sidebar.classList.remove('sidebar-responsive');
-//         overlay.classList.remove('active');
-//         sidebarOpen = false;
-//     }
-// }
-//
-// // Esperamos a que el DOM esté completamente cargado para inicializar los elementos
-// document.addEventListener("DOMContentLoaded", function() {
-//     // Inicializamos el sidebar y el overlay una vez que el DOM esté listo
-//     sidebar = document.getElementById('sidebar');
-//     overlay = document.getElementById('overlay');
-//
-//     const menuIcon = document.querySelector('.menu-icon');
-//     const closeButton = document.querySelector('.sidebar-title span'); // El botón de cerrar dentro del sidebar
-//
-//     // Añadimos el evento de clic al botón hamburguesa para abrir el sidebar
-//     menuIcon.addEventListener('click', openSidebar);
-//
-//     // Añadimos el evento de clic al botón de cerrar dentro del sidebar
-//     closeButton.addEventListener('click', closeSidebar);
-//
-//     // Añadimos el evento de clic al overlay para cerrar el sidebar cuando se haga clic fuera de él
-//     overlay.addEventListener('click', closeSidebar);
-// });
-//
-//
-// // ---------- CHARTS ----------
-//
-// // BAR CHART
-// const barChartOptions = {
-//     series: [
-//         {
-//             data: [10, 8, 6, 4, 2],
-//         },
-//     ],
-//     chart: {
-//         type: 'bar',
-//         height: 350,
-//         toolbar: {
-//             show: false,
-//         },
-//     },
-//     colors: ['#246dec', '#cc3c43', '#367952', '#f5b74f', '#4f35a1'],
-//     plotOptions: {
-//         bar: {
-//             distributed: true,
-//             borderRadius: 4,
-//             horizontal: false,
-//             columnWidth: '40%',
-//         },
-//     },
-//     dataLabels: {
-//         enabled: false,
-//     },
-//     legend: {
-//         show: false,
-//     },
-//     xaxis: {
-//         categories: ['Laptop', 'Phone', 'Monitor', 'Headphones', 'Camera'],
-//     },
-//     yaxis: {
-//         title: {
-//             text: 'Count',
-//         },
-//     },
-// };
-//
-// const barChart = new ApexCharts(
-//     document.querySelector('#bar-chart'),
-//     barChartOptions
-// );
-// barChart.render();
-//
-// // AREA CHART
-// const areaChartOptions = {
-//     series: [
-//         {
-//             name: 'Purchase Orders',
-//             data: [31, 40, 28, 51, 42, 109, 100],
-//         },
-//         {
-//             name: 'Sales Orders',
-//             data: [11, 32, 45, 32, 34, 52, 41],
-//         },
-//     ],
-//     chart: {
-//         height: 350,
-//         type: 'area',
-//         toolbar: {
-//             show: false,
-//         },
-//     },
-//     colors: ['#4f35a1', '#246dec'],
-//     dataLabels: {
-//         enabled: false,
-//     },
-//     stroke: {
-//         curve: 'smooth',
-//     },
-//     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-//     markers: {
-//         size: 0,
-//     },
-//     yaxis: [
-//         {
-//             title: {
-//                 text: 'Purchase Orders',
-//             },
-//         },
-//         {
-//             opposite: true,
-//             title: {
-//                 text: 'Sales Orders',
-//             },
-//         },
-//     ],
-//     tooltip: {
-//         shared: true,
-//         intersect: false,
-//     },
-// };
-//
-// const areaChart = new ApexCharts(
-//     document.querySelector('#area-chart'),
-//     areaChartOptions
-// );
-// areaChart.render();

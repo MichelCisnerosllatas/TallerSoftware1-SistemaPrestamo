@@ -20,6 +20,7 @@ class LoginController extends Controller {
 
     public function login(Request $request) {
         try {
+            $message = "";
             $api = env('API_URL') . 'UsuarioController.php';
             $response = Http::asForm()->post($api, [
                 'Accion' => "5",
@@ -39,13 +40,14 @@ class LoginController extends Controller {
                 ]);
             }
 
-            session([
-                'usuariologin' => $body['result']['data'][0]
-            ]);
+            if ($body['result']['data'] == null) {
+                return response()->json([
+                    'success' => false,
+                    'message' => $body['result']['message']
+                ]);
+            }
 
-            // Esto es para que Laravel sepa que el usuario está autentica
-            //auth()->loginUsingId(1);
-
+            session(['usuariologin' => $body['result']['data'][0]]);
             return response()->json([
                 'success' => $body['result']['success'],
                 'message' => $body['result']['message']
@@ -58,18 +60,10 @@ class LoginController extends Controller {
         }
     }
 
-//    public function logout() {
-//        // Eliminar los datos de la sesión
-//        session()->forget('usuariologin');
-//        return redirect()->route('login');
-//    }
-
     public function logout()
     {
         session()->forget('usuariologin');
         \RealRashid\SweetAlert\Facades\Alert::success('Logged Out', 'You have successfully logged out!');
         return redirect()->route('login');
     }
-
-
 }

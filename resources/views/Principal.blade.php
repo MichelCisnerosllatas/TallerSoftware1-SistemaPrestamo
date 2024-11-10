@@ -7,23 +7,57 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @vite([
+        'resources/css/app.css',
+        'resources/css/theme.css',
+        'resources/css/Caja/styleCaja.css',
+        'resources/css/Clientes/styleClientes.css',
+        'resources/css/Dashboard/styleDashboard.css',
+        'resources/css/Empresa/styleEmpresa.css',
+        'resources/css/Permisos/stylePermisos.css',
+        'resources/css/Prestamos/stylePrestamos.css',
+        'resources/css/Pagos/stylePagos.css',
         'resources/css/Principal/stylePrincipal.css',
-        'resources/js/Principal/appPrincipal.js',
-
         'resources/css/Principal/menuUsuario.css',
+        'resources/css/Reporte/styleReporte.css',
+        'resources/css/Rol/styleRol.css',
+        'resources/css/Usuarios/styleUsuarios.css',
+        'resources/css/Ajustes/styleAjustes.css',
+        'resources/css/Perfil/stylePerfil.css',
+
+        'resources/js/Caja/appCaja.js',
+        'resources/js/Clientes/appClientes.js',
+        'resources/js/Dashboard/appDashboard.js',
+        'resources/js/Empresa/appEmpresa.js',
+        'resources/js/Permisos/appPermisos.js',
+        'resources/js/Prestamos/appPrestamos.js',
+        'resources/js/Pagos/appPagos.js',
+        'resources/js/Principal/appPrincipal.js',
         'resources/js/Principal/menuUsuario.js',
+        'resources/js/Reporte/appReporte.js',
+        'resources/js/Rol/appRol.js',
+        'resources/js/Usuarios/appUsuarios.js',
+        'resources/js/Usuarios/registroUsuario.js',
+        'resources/js/Ajustes/appAjustes.js',
+        'resources/js/Perfil/appPerfil.js',
+
+
+        'resources/js/app.js',
+        'resources/js/Login.js'
     ])
+    @include('sweetalert::alert') <!-- Incluye el script de SweetAlert -->
 </head>
 <body>
     <nav class="menu_navegacion" id="nav">
         <ul>
             <li>
                 <span class="logo">AppCobranza</span>
-                <button id="btnmenu">
+                <button id="btndrawer" class="btndrawer">
                     <svg xmlns="http://www.w3.org/2000/svg" height="20" width="17.5" viewBox="0 0 448 512"><path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/></svg>
                 </button>
             </li>
 
+            <br>
+            <br>
             <h5>Menu</h5>
             <br>
 
@@ -55,59 +89,69 @@
                 </a>
             </li>
 
-            <br>
-            <h5>Administracion</h5>
-            <br>
+            @if(session('usuariologin')['IdRol'] === '2')
+                <br>
+                <h5>Administracion</h5>
+                <br>
+                <li>
+                    <a href="/Caja" title="Caja">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="22.5" viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M50.7 58.5L0 160l208 0 0-128L93.7 32C75.5 32 58.9 42.3 50.7 58.5zM240 160l208 0L397.3 58.5C389.1 42.3 372.5 32 354.3 32L240 32l0 128zm208 32L0 192 0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-224z"/></svg>
+                        <span>Caja</span>
+                    </a>
+                </li>
 
-            <li>
-                <a href="/Caja" title="Caja">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="22.5" viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M50.7 58.5L0 160l208 0 0-128L93.7 32C75.5 32 58.9 42.3 50.7 58.5zM240 160l208 0L397.3 58.5C389.1 42.3 372.5 32 354.3 32L240 32l0 128zm208 32L0 192 0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-224z"/></svg>
-                    <span>Caja</span>
-                </a>
-            </li>
+                <li>
+                    <a href="/Usuario" title="Usuarios">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="22.5" viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/></svg>
+                        <span>Usuarios</span>
+                    </a>
+                </li>
 
-            <li>
-                <a href="/Usuario" title="Usuarios">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="22.5" viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/></svg>
-                    <span>Usuarios</span>
-                </a>
-            </li>
+                <li>
+                    <a href="/Empresa" title="Empresa">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="22.5" viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M48 0C21.5 0 0 21.5 0 48L0 464c0 26.5 21.5 48 48 48l96 0 0-80c0-26.5 21.5-48 48-48s48 21.5 48 48l0 80 96 0c26.5 0 48-21.5 48-48l0-416c0-26.5-21.5-48-48-48L48 0zM64 240c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zm112-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zM80 96l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zM272 96l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16z"/></svg>
+                        <span>Empresa</span>
+                    </a>
+                </li>
 
-            <li>
-                <a href="/Empresa" title="Empresa">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="22.5" viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M48 0C21.5 0 0 21.5 0 48L0 464c0 26.5 21.5 48 48 48l96 0 0-80c0-26.5 21.5-48 48-48s48 21.5 48 48l0 80 96 0c26.5 0 48-21.5 48-48l0-416c0-26.5-21.5-48-48-48L48 0zM64 240c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zm112-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zM80 96l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zM272 96l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16z"/></svg>
-                    <span>Empresa</span>
-                </a>
-            </li>
+                <li>
+                    <a href="/Rol" title="Roles">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="22.5" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm50.7-186.9L162.4 380.6c-19.4 7.5-38.5-11.6-31-31l55.5-144.3c3.3-8.5 9.9-15.1 18.4-18.4l144.3-55.5c19.4-7.5 38.5 11.6 31 31L325.1 306.7c-3.2 8.5-9.9 15.1-18.4 18.4zM288 256a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>
+                        <span>Roles</span>
+                    </a>
+                </li>
 
-            <li>
-                <a href="/Rol" title="Roles">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="22.5" viewBox="0 0 512 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zm50.7-186.9L162.4 380.6c-19.4 7.5-38.5-11.6-31-31l55.5-144.3c3.3-8.5 9.9-15.1 18.4-18.4l144.3-55.5c19.4-7.5 38.5 11.6 31 31L325.1 306.7c-3.2 8.5-9.9 15.1-18.4 18.4zM288 256a32 32 0 1 0 -64 0 32 32 0 1 0 64 0z"/></svg>
-                    <span>Roles</span>
-                </a>
-            </li>
+                <li>
+                    <a href="/Permisos" title="Permisos">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20px" width="22.5" viewBox="0 -960 960 960"  fill="#e8eaed"><path d="M520-640v-160q0-17 11.5-28.5T560-840h240q17 0 28.5 11.5T840-800v160q0 17-11.5 28.5T800-600H560q-17 0-28.5-11.5T520-640ZM120-480v-320q0-17 11.5-28.5T160-840h240q17 0 28.5 11.5T440-800v320q0 17-11.5 28.5T400-440H160q-17 0-28.5-11.5T120-480Zm400 320v-320q0-17 11.5-28.5T560-520h240q17 0 28.5 11.5T840-480v320q0 17-11.5 28.5T800-120H560q-17 0-28.5-11.5T520-160Zm-400 0v-160q0-17 11.5-28.5T160-360h240q17 0 28.5 11.5T440-320v160q0 17-11.5 28.5T400-120H160q-17 0-28.5-11.5T120-160Zm80-360h160v-240H200v240Zm400 320h160v-240H600v240Zm0-480h160v-80H600v80ZM200-200h160v-80H200v80Zm160-320Zm240-160Zm0 240ZM360-280Z"/></svg>
+                        <span>Permisos</span>
+                    </a>
+                </li>
 
-            <li>
-                <a href="/Permisos" title="Permisos">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="20px" width="22.5" viewBox="0 -960 960 960"  fill="#e8eaed"><path d="M520-640v-160q0-17 11.5-28.5T560-840h240q17 0 28.5 11.5T840-800v160q0 17-11.5 28.5T800-600H560q-17 0-28.5-11.5T520-640ZM120-480v-320q0-17 11.5-28.5T160-840h240q17 0 28.5 11.5T440-800v320q0 17-11.5 28.5T400-440H160q-17 0-28.5-11.5T120-480Zm400 320v-320q0-17 11.5-28.5T560-520h240q17 0 28.5 11.5T840-480v320q0 17-11.5 28.5T800-120H560q-17 0-28.5-11.5T520-160Zm-400 0v-160q0-17 11.5-28.5T160-360h240q17 0 28.5 11.5T440-320v160q0 17-11.5 28.5T400-120H160q-17 0-28.5-11.5T120-160Zm80-360h160v-240H200v240Zm400 320h160v-240H600v240Zm0-480h160v-80H600v80ZM200-200h160v-80H200v80Zm160-320Zm240-160Zm0 240ZM360-280Z"/></svg>
-                    <span>Permisos</span>
-                </a>
-            </li>
+                <li>
+                    <a href="/Reporte" title="Reporte">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="22.5" viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 288c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 64zm384 64l-128 0L256 0 384 128z"/></svg>
+                        <span>Reporte</span>
+                    </a>
+                </li>
+            @endif
 
-            <li>
-                <a href="/Reporte" title="Reporte">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="22.5" viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M0 64C0 28.7 28.7 0 64 0L224 0l0 128c0 17.7 14.3 32 32 32l128 0 0 288c0 35.3-28.7 64-64 64L64 512c-35.3 0-64-28.7-64-64L0 64zm384 64l-128 0L256 0 384 128z"/></svg>
-                    <span>Reporte</span>
-                </a>
-            </li>
         </ul>
     </nav>
+    {{--Esto el fondo oscuro que se visualzia en los celulares--}}
+    <div id="overlay" class="overlay"></div>
 
     <main>
         <header class="menu_cabezera">
-            <h3>Dashboard</h3>
+            <div class="divmenu_labelcabezera">
+                <button id="btnmenu">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="17.5" viewBox="0 0 448 512"><path d="M0 96C0 78.3 14.3 64 32 64l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 128C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 288c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32L32 448c-17.7 0-32-14.3-32-32s14.3-32 32-32l384 0c17.7 0 32 14.3 32 32z"/></svg>
+                </button>
+                <h4>SISTEMA DE PRESTAMO</h4>
+            </div>
+
             <div class="dropdown">
-                <button onclick="myFunction()" class="dropbtn">Hola, {{ session('usuariologin')['Nombre'] }}</button>
+                <button class="dropbtn">Hola, {{ session('usuariologin')['Nombre'] ?? 'Error'}}</button>
                 <div id="myDropdown" class="dropdown-content">
                     <a href="/Perfil">Mi Perfil</a>
                     <a href="/Ajustes">Configuración</a>
@@ -119,22 +163,6 @@
             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                 @csrf
             </form>
-
-
-            {{--            <div class="dropdown">--}}
-{{--                <button onclick="myFunction()" class="dropbtn">Hola, {{ session('usuariologin')['Nombre'] }}</button>--}}
-{{--                <div id="myDropdown" class="dropdown-content">--}}
-{{--                    <a href="/Perfil">Mi Perfil</a>--}}
-{{--                    <a href="/Ajustes">Configuracion</a>--}}
-{{--                    <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">--}}
-{{--                        Cerrar Sesion--}}
-{{--                    </a>--}}
-{{--                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">--}}
-{{--                        @csrf--}}
-{{--                    </form>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--            <h3>Hola, {{ session('usuariologin')['Nombre'] }}</h3>--}}
         </header>
 
         <div class="div_contenedor">

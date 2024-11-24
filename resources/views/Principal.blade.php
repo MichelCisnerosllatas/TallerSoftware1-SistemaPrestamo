@@ -6,6 +6,7 @@
     <title>Principal | Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @livewireStyles
     @vite([
         'resources/css/app.css',
         'resources/css/theme.css',
@@ -45,6 +46,7 @@
         'resources/js/Login.js'
     ])
     @include('sweetalert::alert') <!-- Incluye el script de SweetAlert -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 </head>
 <body>
     <nav class="menu_navegacion" id="nav">
@@ -168,5 +170,18 @@
         <div class="div_contenedor">
         </div>
     </main>
+    @livewireScripts
+    <script src="{{asset('sweetalert2/dist/sweetalert2.all.min.js') }}"></script>
+    <script>
+        // Utilizamos Livewire.on() directamente para asegurarnos de que escuchamos el evento
+        Livewire.on('mostrarSweetAlert', function () {
+            Swal.fire({
+                title: 'Registro Exitoso',
+                text: 'El cliente ha sido registrado correctamente',
+                icon: 'success',
+                confirmButtonText: 'Aceptar'
+            });
+        });
+    </script>
 </body>
 </html>

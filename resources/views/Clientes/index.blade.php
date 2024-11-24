@@ -1,21 +1,3 @@
 <div class="contenido_Clientes">
-    <h3>Yo Soy CLIENTE</h3>
+    @livewire('cliente.cliente')
 </div>
-{{--<!doctype html>--}}
-{{--<html lang="es">--}}
-{{--<head>--}}
-{{--    <meta charset="UTF-8">--}}
-{{--    <meta name="viewport" content="width=device-width, initial-scale=1">--}}
-{{--    <meta name="csrf-token" content="{{ csrf_token() }}">--}}
-{{--    @vite([--}}
-{{--        'resources/css/Clientes/styleClientes.css',--}}
-{{--        'resources/js/Clientes/appClientes.js',--}}
-{{--    ])--}}
-{{--    <title>Caja</title>--}}
-{{--</head>--}}
-{{--<body>--}}
-{{--<div class="contenido_Clientes">--}}
-{{--    <h3>Yo Soy CLIENTE</h3>--}}
-{{--</div>--}}
-{{--</body>--}}
-{{--</html>--}}

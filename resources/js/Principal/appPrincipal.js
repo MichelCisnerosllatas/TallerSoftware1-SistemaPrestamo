@@ -97,9 +97,6 @@ function navegacionPaginas() {
                 .then(data => {
                     contentDiv.innerHTML = data; // Cargar el contenido en el div
                     document.title = `Sistema Prestamos | ${title}`; // nombre que sale en el titulo Navegador
-
-                    // Vuelve a inicializar el modal después de cargar el contenido por AJAX
-                    //iniciarPrestamo();
                 })
                 .catch(error => {
                     console.error('Error al cargar el contenido:', error);

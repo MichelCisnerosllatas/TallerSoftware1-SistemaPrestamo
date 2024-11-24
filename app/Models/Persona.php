@@ -23,7 +23,7 @@ class Persona {
             "NumDoc" => isset($datosPersona['numDoc']) ? (!empty($datosPersona['numDoc']) ? $datosPersona['numDoc'] : "") : "",
             "Correo" => isset($datosPersona['correo']) ? (!empty($datosPersona['correo']) ? $datosPersona['correo'] : "") : "",
             "RutaImagen" => isset($datosPersona['rutaImagen']) ? (!empty($datosPersona['rutaImagen']) ? $datosPersona['rutaImagen'] : "") : "",
-            "FechaRegistro" => Carbon::now()->toDateTimeString(),
+            "FechaRegistro" => isset($datosPersona['fechaRegistro']) ? (!empty($datosPersona['fechaRegistro']) ? $datosPersona['fechaRegistro'] : Carbon::now()->toDateTimeString()) : Carbon::now()->toDateTimeString()
         ];
 
         try {

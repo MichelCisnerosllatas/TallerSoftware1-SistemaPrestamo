@@ -8,6 +8,10 @@
     --color-azul-claro: rgba(50, 132, 255, 1);
     --color-azul-oscuro: #02146A;
     --color-rojo: #ff0000;
+    --color-amarillo: rgb(255, 236, 2);
+    --color-naraja: rgba(236, 192, 71, 0.85);
+    --color-verde-claro: rgba(31, 248, 5, 0.85);
+    --color-verde-oscuro: rgba(43, 96, 33, 0.85);
 
     --font-size-12: 12px;
     --font-size-14: 14px;
@@ -15,5 +19,89 @@
     --font-size-18: 18px;
 
     --fuente-letra: Poppins, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
 }
+
+/*botones */
+
+.buttonPrincipal1 {
+    background: var(--color-azul-marino);
+    border: none;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    display: flex; /* Centrado del contenido */
+    align-items: center; /* Centrado vertical del texto */
+    justify-content: center; /* Centrado horizontal del texto */
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 100%; /* Bordes redondeados */
+    box-sizing: border-box; /* Incluye padding y borde */
+    height: 100%; /* Ocupa toda la altura del contenedor */
+    padding: 0 12px; /* Ajusta el padding horizontal */
+}
+
+.buttonPrincipal2 {
+    background: var(--color-azul-marino);
+    border: none;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    display: flex; /* Centrado del contenido */
+    align-items: center; /* Centrado vertical del texto */
+    justify-content: center; /* Centrado horizontal del texto */
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 2px; /* Bordes redondeados */
+    box-sizing: border-box; /* Incluye padding y borde */
+    height: 100%; /* Ocupa toda la altura del contenedor */
+    padding: 0 12px; /* Ajusta el padding horizontal */
+    min-width: 40px; /* Evita que el botón sea demasiado pequeño */
+}
+
+
+
+.buttonPrincipal1:hover, .buttonPrincipal2:hover{
+    background-color: var(--color-azul-claro);
+}
+
+.buttonPrincipal1:focus, .buttonPrincipal2:focus {
+    /*outline: 2px solid var(--color-amarillo);*/
+    outline-offset: 2px;
+    background-color: var(--color-azul-oscuro);
+}
+
+/*Select */
+.select {
+    padding: 8px 12px; /* Ajusta el padding para un diseño más espacioso */
+    width: auto; /* Quita el ancho 100% para evitar que sea demasiado amplio */
+    min-width: 300px; /* Establece un ancho mínimo */
+    border: 1px solid var(--color-blanco-humo); /* Usa el color blanco humo */
+    border-radius: 4px; /* Bordes redondeados */
+    font-size: 14px; /* Tamaño uniforme del texto */
+    color: var(--color-azul-oscuro); /* Texto azul oscuro */
+    background-color: var(--color-blanco); /* Fondo blanco */
+    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gray"%3E%3Cpath d="M7 10l5 5 5-5z"/%3E%3C/svg%3E'); /* Flecha personalizada */
+    background-position: right 10px center; /* Posición de la flecha */
+    background-repeat: no-repeat; /* Evita repeticiones de la flecha */
+    background-size: 12px; /* Tamaño de la flecha */
+    appearance: none; /* Elimina el estilo nativo */
+    -webkit-appearance: none; /* Compatibilidad con WebKit */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    box-sizing: border-box; /* Asegura un tamaño consistente */
+}
+
+.select:focus {
+    outline: 2px solid var(--color-azul-claro); /* Resalta el borde al enfocarse */
+    outline-offset: 2px; /* Espaciado entre el borde y el contorno */
+}
+
+.select:hover {
+    border-color: var(--color-azul-claro); /* Cambia el color del borde al pasar el mouse */
+}
+
+
+
 

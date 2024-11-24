@@ -25,8 +25,8 @@ class Usuario extends Model {
         ];
 
         try {
-            $response = Http::timeout(10) // Establece un tiempo máximo para evitar que la petición se cuelgue
-            ->retry(3, 100) // Reintenta la petición hasta 3 veces en caso de error
+            $response = Http::timeout(10)
+            ->retry(3, 100)
             ->asForm()->post($this->UrlApi, $payload);
 
             if (!$response->successful()) {
@@ -43,10 +43,12 @@ class Usuario extends Model {
             }
 
             return $body;
-        } catch (RequestException $e) {
+        }
+        catch (RequestException $e) {
             throw new \Exception("Problema de conexión al realizar la petición InsertarUsuario: " . $e->getMessage());
 
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             throw new \Exception("Ocurrió un error al insertar el Usuario" . $e->getMessage());
         }
     }
@@ -66,22 +68,20 @@ class Usuario extends Model {
             if (!$response->successful()) {
                 throw new \Exception('Error en el servidor');
             }
-
             if ($response->failed()) {
-                // Si el backend responde pero con error (4xx, 5xx)
                 throw new \Exception("Respuesta fallida del backend: ExisteUsuario:" . $response->body());
             }
-
             $body = $response->json();
             if ($body['result']['success']) {
                 throw new \Exception($body['result']['message']);
             }
-
             return $body;
-        } catch (RequestException $e) {
+        }
+        catch (RequestException $e) {
             throw new \Exception("Problema de conexión al realizar la petición ExisteUsuario:: " . $e->getMessage());
 
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             throw new \Exception($e->getMessage());
         }
     }

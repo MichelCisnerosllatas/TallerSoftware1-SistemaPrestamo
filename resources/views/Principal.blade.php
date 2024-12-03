@@ -12,6 +12,7 @@
         'resources/css/theme.css',
         'resources/css/Caja/styleCaja.css',
         'resources/css/Clientes/styleClientes.css',
+        'resources/css/Clientes/styleSeleccionarCliente.css',
         'resources/css/Dashboard/styleDashboard.css',
         'resources/css/Empresa/styleEmpresa.css',
         'resources/css/Permisos/stylePermisos.css',
@@ -26,7 +27,8 @@
         'resources/css/Perfil/stylePerfil.css',
 
         'resources/js/Caja/appCaja.js',
-        'resources/js/Clientes/appClientes.js',
+        'resources/js/Clientes/appCliente.js',
+        'resources/js/Clientes/appSelecionarCliente.js',
         'resources/js/Dashboard/appDashboard.js',
         'resources/js/Empresa/appEmpresa.js',
         'resources/js/Permisos/appPermisos.js',
@@ -91,7 +93,14 @@
                 </a>
             </li>
 
-            @if(session('usuariologin')['IdRol'] === '2')
+            <li>
+                <a href="/Empresa" title="Empresa">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="22.5" viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M48 0C21.5 0 0 21.5 0 48L0 464c0 26.5 21.5 48 48 48l96 0 0-80c0-26.5 21.5-48 48-48s48 21.5 48 48l0 80 96 0c26.5 0 48-21.5 48-48l0-416c0-26.5-21.5-48-48-48L48 0zM64 240c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zm112-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zM80 96l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zM272 96l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16z"/></svg>
+                    <span>Empresa</span>
+                </a>
+            </li>
+
+            @if(session('usuariologin')['IdRol'] === '3')
                 <br>
                 <h5>Administracion</h5>
                 <br>
@@ -106,13 +115,6 @@
                     <a href="/Usuario" title="Usuarios">
                         <svg xmlns="http://www.w3.org/2000/svg" height="20" width="22.5" viewBox="0 0 448 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512l388.6 0c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304l-91.4 0z"/></svg>
                         <span>Usuarios</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="/Empresa" title="Empresa">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="22.5" viewBox="0 0 384 512"><!--!Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M48 0C21.5 0 0 21.5 0 48L0 464c0 26.5 21.5 48 48 48l96 0 0-80c0-26.5 21.5-48 48-48s48 21.5 48 48l0 80 96 0c26.5 0 48-21.5 48-48l0-416c0-26.5-21.5-48-48-48L48 0zM64 240c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zm112-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zM80 96l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zm80 16c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zM272 96l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16z"/></svg>
-                        <span>Empresa</span>
                     </a>
                 </li>
 
@@ -170,6 +172,7 @@
         <div class="div_contenedor">
         </div>
     </main>
+
     @livewireScripts
     <script src="{{asset('sweetalert2/dist/sweetalert2.all.min.js') }}"></script>
     <script>
@@ -180,6 +183,22 @@
                 text: 'El cliente ha sido registrado correctamente',
                 icon: 'success',
                 confirmButtonText: 'Aceptar'
+            });
+        });
+
+        Livewire.on('SweetAlertPrincipal', function (data) {
+            const alertData = data[0];
+            Swal.fire({
+                icon: alertData.icon || 'info',  // Usar los datos del primer elemento
+                title: alertData.title || 'Título por defecto',
+                text: alertData.text || 'Texto por defecto',
+                footer: alertData.footer || '',
+                showCancelButton: alertData.showCancelButton || false,
+                confirmButtonText: alertData.confirmButtonText || 'Aceptar',
+                cancelButtonText: alertData.cancelButtonText || 'Cancelar',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                timer: alertData.timer || 0
             });
         });
     </script>

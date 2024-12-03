@@ -160,6 +160,10 @@ body {
     overflow-y: auto; /* Si el contenido es más grande, permite hacer scroll */
 }
 
+.sweet-alert-popup {
+    z-index: 9999 !important;  /* Asegura que SweetAlert esté por encima de otros elementos */
+}
+
 @media only screen and (max-width: 600px) {
     body {
         display: block; /* Cambia de grid a block para móviles */
@@ -206,6 +210,6 @@ body {
     }
 
     .div_contenedor{
-        margin: 60px 10px 0px 10px;
+        margin: 60px 10px 0 10px;
     }
 }

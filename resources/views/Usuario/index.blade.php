@@ -1,5 +1,6 @@
 <div class="contenido_Usuarios">
-    <h3>Yo Soy USUARIO</h3>
+{{--    <h3>Yo Soy USUARIO</h3>--}}
+    @livewire('usuario.gestion-usuario')
 </div>
 
 {{--<!doctype html>--}}

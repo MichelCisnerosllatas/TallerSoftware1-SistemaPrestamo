@@ -8,86 +8,140 @@
 }
 
 /* Modal Overlay */
-.modal-overlay {
-    position: fixed;
+.modalNuevoClienteSombra {
+    position: fixed;  /* El modal se fija en la pantalla */
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex; /* Centra el modal */
-    align-items: center;
-    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro */
+    display: none; /* Usamos Flexbox para el centrado */
+    justify-content: center; /* Centrado horizontal */
+    align-items: center; /* Centrado vertical */
     z-index: 1000;
 }
 
-/* Modal visible */
-.modal-overlay.visible {
-    display: flex; /* Cambia el display para mostrar el modal */
-}
-
 /* Modal Content */
-.modal-content {
-    min-width: 120vh;
+.modalNuevoClienteSombra .modal-content {
+    position: relative;
+    width: 50vw; /* Ancho 50% de la ventana */
+    max-width: 700px;
+    min-width: 300px;
+    max-height: 65vh;
     background-color: #fff;
     border-radius: 8px;
-    padding: 20px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    overflow-y: auto;
-    text-align: center;
-}
-
-
-/* Ajusta el grupo de inputs para alinearlos adecuadamente */
-.input-group {
     display: flex;
-    gap: 20px; /* Espacio entre Nombre y Apellido */
+    flex-direction: column;
+    overflow: hidden;
+    padding: 2px;
+
+    /* Centrado con transform, pero solo se aplica en el modal */
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+}
+
+/* Modal Header */
+.modalNuevoClienteSombra .modal-content .modalClienteHeader {
+    display: flex;
     justify-content: space-between;
-    width: 100%;
-    margin-bottom: 15px;
-}
-
-
-/* Estilo para cada elemento dentro del grupo */
-.input-item {
-    flex: 1;
-}
-
-/* Input fields */
-.modal-body label {
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-.modal-body input {
+    align-items: center;
+    background-color: var(--color-blanco-humo);
     padding: 10px;
-    width: 100%; /* Ajusta el ancho del input al contenedor */
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin-bottom: 10px;
+}
+
+.modalNuevoClienteSombra .modal-content .modalClienteHeader .modal-title {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+/* Modal Form Container (scrollable) */
+.modalNuevoClienteSombra .modal-content .modal-form-container {
+    flex: 1;
+    overflow-y: auto; /* Solo el formulario tiene scroll */
+    padding: 0 10px;
+    max-height: 50vh; /* Máxima altura para el formulario */
 }
 
 /* Modal Footer */
-.modal-footer {
-    margin-top: 20px;
+.modalNuevoClienteSombra .modal-content .modalClienteFooter {
+    background-color: #f9f9f9;
+    border-top: 1px solid #ddd;
     display: flex;
-    justify-content: end;
-    gap: 10px; /* Espacio entre los botones */
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 10px;
 }
 
-.modal-button {
-    padding: 10px 20px;
-    background-color: #04AA6D; /* Verde */
-    color: #fff;
-    border: none;
+/* Inputs */
+.modal-body-nuevociente input, .modal-body-nuevociente select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
     border-radius: 4px;
-    cursor: pointer;
-    flex: 1;
+    box-shadow: none; /* Elimina la sombra de los inputs */
 }
 
-.modal-button:hover {
-    background-color: #038a57; /* Verde más oscuro al pasar el cursor */
+.modal-body-nuevociente .input-error{
+    border-color: var(--color-rojo);
 }
+
+/* Eliminar efectos de desenfoque en los inputs */
+.modal-body-nuevociente input:focus, .modal-body-nuevociente select:focus {
+    outline: none;  /* Elimina el contorno de los inputs */
+    box-shadow: none;  /* Elimina la sombra cuando el input está en foco */
+    border-color: #ccc;  /* Mantiene el borde normal */
+}
+
+/* Estilos para el formulario en dos columnas */
+.modal-body-nuevociente .input-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+    gap: 20px; /* Espacio entre columnas */
+}
+
+.modal-body-nuevociente .input-item {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Scrollbar Styling */
+.modalNuevoClienteSombra .modal-content .modal-form-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modalNuevoClienteSombra .modal-content .modal-form-container::-webkit-scrollbar-thumb {
+    background: var(--color-azul-marino);
+    border-radius: 8px;
+}
+
+.modalNuevoClienteSombra .modal-content .modal-form-container::-webkit-scrollbar-thumb:hover {
+    background: var(--color-azul-marino);
+}
+
+/* Media Query para pantallas pequeñas */
+@media (max-width: 800px) {
+    .modalNuevoClienteSombra .modal-content {
+        width: 90%; /* Ajuste de ancho en pantallas pequeñas */
+        max-height: 80vh; /* Ajuste de altura */
+    }
+
+    .modalNuevoClienteSombra .modal-content .modalClienteFooter {
+        flex-direction: column-reverse; /* Botones en columna */
+        gap: 10px;
+    }
+
+    /* Solo una columna en pantallas pequeñas */
+    .modal-body-nuevociente .input-group {
+        grid-template-columns: 1fr; /* Solo una columna */
+    }
+}
+
+
+
+
 
 
 
@@ -247,18 +301,25 @@
     cursor: pointer;
 }
 
-.divtablacliente .btneditar {
+.divtablacliente .btneditarCliente {
     background-color: var(--color-verde-oscuro);
     color: white;
 }
 
-.divtablacliente .btneliminar {
+.divtablacliente .btneliminarCliente {
     background-color: var(--color-rojo);
     color: white;
 }
 
+.divtablacliente .btneliminarCliente svg,  .divtablacliente .btneditarCliente svg{
+    width: 100%;
+    height: 100%;
+    pointer-events: none;  /* Para asegurarte de que el clic sea manejado por el botón */
+}
+
+
 .divtablacliente button:hover {
-    background-color: #45a049;
+    background-color: var(--color-azul-oscuro);
 }
 
 /* Iconos en lugar de texto para botones */
@@ -367,152 +428,3 @@
     /*aca es dentro de las filas*/
     /*cursor: pointer;*/
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*.divtablacliente {*/
-/*    width: 100%;*/
-/*    overflow: auto; !* Permitir el scroll independiente del contenedor de la tabla *!*/
-/*    border: 1px solid #ddd;*/
-/*    border-radius: 8px;*/
-/*    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);*/
-/*    height: calc(100vh - 13rem); !*!* Ajuste para que la tabla ocupe el espacio disponible sin desbordar *!*!*/
-/*    display: flex;*/
-/*    flex-direction: column;*/
-/*}*/
-
-/*!* Estilo para la tabla *!*/
-/*.divtablacliente table {*/
-/*    width: 100%;*/
-/*    border-collapse: collapse;*/
-/*    table-layout: fixed;*/
-/*    flex-grow: 1;*/
-/*    overflow: auto; !* Permitir scroll horizontal y vertical *!*/
-/*}*/
-
-/*!* Control del scroll horizontal y vertical *!*/
-/*.divtablacliente table tbody {*/
-/*    display: block;*/
-/*    max-height: 100%;*/
-/*    overflow-y: auto;*/
-/*    overflow-x: auto;*/
-/*}*/
-
-/*.divtablacliente table thead, .divtablacliente table tbody tr {*/
-/*    display: table;*/
-/*    width: 100%;*/
-/*    table-layout: fixed;*/
-/*}*/
-
-/*!* Estilo para las celdas *!*/
-/*.divtablacliente th, .divtablacliente td {*/
-/*    padding: 12px;*/
-/*    text-align: left;*/
-/*    border-bottom: 1px solid #ddd;*/
-/*    white-space: nowrap;*/
-/*    overflow: hidden;*/
-/*    text-overflow: ellipsis;*/
-/*}*/
-
-/*!* Ajuste de ancho para columnas específicas *!*/
-/*.divtablacliente th:nth-child(1), .divtablacliente td:nth-child(1) {*/
-/*    width: 5%;*/
-/*}*/
-/*.divtablacliente th:nth-child(3), .divtablacliente td:nth-child(3) {*/
-/*    width: 10%;*/
-/*}*/
-/*.divtablacliente th:nth-child(4), .divtablacliente td:nth-child(4) {*/
-/*    text-align: center;*/
-/*    width: 20%;*/
-/*}*/
-
-/*.divtablacliente th:nth-child(5), .divtablacliente td:nth-child(5) {*/
-/*    text-align: center;*/
-/*    width: 13%;*/
-/*}*/
-
-/*!* Estilo para el encabezado *!*/
-/*.divtablacliente thead {*/
-/*    background-color: #f4f4f4;*/
-/*    font-weight: bold;*/
-/*    position: sticky;*/
-/*    top: 0;*/
-/*    z-index: 1;*/
-/*}*/
-
-/*!* Estilo para los botones *!*/
-/*.divtablacliente button {*/
-/*    padding: 6px 7px;*/
-/*    border: none;*/
-/*    border-radius: 4px;*/
-/*    cursor: pointer;*/
-/*}*/
-
-/*.divtablacliente .btneditar {*/
-/*    background-color: var(--color-verde-oscuro);*/
-/*    color: white;*/
-/*}*/
-
-/*.divtablacliente .btneliminar {*/
-/*    background-color: var(--color-rojo);*/
-/*    color: white;*/
-/*}*/
-
-/*.divtablacliente button:hover {*/
-/*    background-color: #45a049;*/
-/*}*/
-
-/*!* Iconos en lugar de texto para botones *!*/
-/*.divtablacliente .accion-btn {*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*}*/
-
-/*.divtablacliente .accion-btn button {*/
-/*    padding: 2px;*/
-/*}*/
-
-/*.divtablacliente .accion-btn button::before {*/
-/*    content: '\270E'; !* Icono de lápiz para "editar" *!*/
-/*    font-size: 16px;*/
-/*    color: white;*/
-/*}*/
-
-/*!* Efecto en las filas *!*/
-/*.divtablacliente tbody tr:hover {*/
-/*    background-color: #f1f1f1;*/
-/*}*/
-
-/*!* Barra de scroll personalizada *!*/
-/*.divtablacliente table tbody::-webkit-scrollbar {*/
-/*    width: 8px;*/
-/*}*/
-
-/*.divtablacliente table tbody::-webkit-scrollbar-thumb {*/
-/*    background-color: #888;*/
-/*    border-radius: 4px;*/
-/*}*/
-
-/*.divtablacliente table tbody::-webkit-scrollbar-thumb:hover {*/
-/*    background-color: #555;*/
-/*}*/

@@ -31,7 +31,7 @@
                     throw new \Exception("Respuesta fallida del backend: ExisteCelular:" . $response->body());
                 }
                 $body = $response->json();
-                if ($body['result']['success']) {
+                if (!$body['result']['success']) {
                     throw new \Exception($body['result']['message']);
                 }
                 return $body;

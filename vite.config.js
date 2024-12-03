@@ -9,6 +9,7 @@ export default defineConfig({
                 'resources/css/theme.css',
                 'resources/css/Caja/styleCaja.css',
                 'resources/css/Clientes/styleClientes.css',
+                'resources/css/Clientes/styleSeleccionarCliente.css',
                 'resources/css/Dashboard/styleDashboard.css',
                 'resources/css/Empresa/styleEmpresa.css',
                 'resources/css/Permisos/stylePermisos.css',
@@ -22,7 +23,8 @@ export default defineConfig({
                 'resources/css/Perfil/stylePerfil.css',
 
                 'resources/js/Caja/appCaja.js',
-                'resources/js/Clientes/appClientes.js',
+                'resources/js/Clientes/appCliente.js',
+                'resources/js/Clientes/appSelecionarCliente.js',
                 'resources/js/Dashboard/appDashboard.js',
                 'resources/js/Empresa/appEmpresa.js',
                 'resources/js/Permisos/appPermisos.js',

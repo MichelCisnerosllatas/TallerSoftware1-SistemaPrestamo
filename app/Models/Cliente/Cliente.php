@@ -42,14 +42,76 @@ class Cliente extends Model {
         }
     }
 
+    public function ReciclarCliente($datosClientes) {
+        $datos = [
+            "Accion" => "8",
+            'IdCliente' => isset($datosClientes['idcliente']) ? (!empty($datosClientes['idcliente']) ? $datosClientes['idcliente'] : null) : null,
+        ];
+
+        try{
+            $response = Http::asForm()->post($this->UrlApi,$datos);
+            if(!$response -> successful()){
+                throw new \Exception('Error en el servidor');
+            }
+
+            if ($response->failed()) {
+                throw new \Exception("Respuesta fallida del backend 'ExisteCliente': " . $response->body());
+            }
+
+            $body = $response->json();
+            if (!$body['result']['success']) {
+                throw new \Exception('Error en el Metodo Fronted "ExisteCliente"');
+            }
+
+            return $body;
+        }
+        catch (\Exception $ex){
+            return response()->json([
+                'success' => false,
+                'message' => 'Ocurrió un error inesperado Metodo Fronted "ExisteCliente". Detalles: ' . $ex->getMessage()
+            ]);
+        }
+    }
+
+    public function BuscarCliente($datosClientes) {
+        $datos = [
+            "Accion" => "5",
+            "IdUsuario" => isset($datosClientes['idusuario']) ? (!empty($datosClientes['idusuario']) ? $datosClientes['idusuario'] : null) : null,
+            "Buscar" => isset($datosClientes['buscar']) ? (!empty($datosClientes['buscar']) ? $datosClientes['buscar'] : "") : "",
+        ];
+
+        try{
+            $response = Http::asForm()->post($this->UrlApi,$datos);
+            if(!$response -> successful()){
+                throw new \Exception('Error en el servidor');
+            }
+
+            if ($response->failed()) {
+                throw new \Exception("Respuesta fallida del backend 'ExisteCliente': " . $response->body());
+            }
+
+            $body = $response->json();
+            if (!$body['result']['success']) {
+                throw new \Exception('Error en el Metodo Fronted "ExisteCliente"');
+            }
+
+            return $body;
+        }catch (\Exception $ex){
+            return response()->json([
+                'success' => false,
+                'message' => 'Ocurrió un error inesperado Metodo Fronted "ExisteCliente". Detalles: ' . $ex->getMessage()
+            ]);
+        }
+    }
+
     public function ListarClientes($datosClientes) {
         $datos = [
             "Accion" => "2",
             "IdUsuario" => isset($datosClientes['idUsuario']) ? (!empty($datosClientes['idUsuario']) ? $datosClientes['idUsuario'] : null) : null,
             'IdEmpresa' => isset($datosClientes['idEmpresa']) ? (!empty($datosClientes['idEmpresa']) ? $datosClientes['idEmpresa'] : "") : "",
             "Estado" => isset($datosClientes['estado']) ? (!empty($datosClientes['estado']) ? $datosClientes['estado'] : "") : "",
-            "Fila" => isset($datosClientes['fila']) ? (!empty($datosClientes['fila']) ? $datosClientes['fila'] : "10") : "10",
-            "Pagina" => isset($datosClientes['pagina']) ? (!empty($datosClientes['pagina']) ? $datosClientes['pagina'] : "10") : "10",
+            "Fila" => isset($datosClientes['fila']) ? (!empty($datosClientes['fila']) ? $datosClientes['fila'] : null) : null,
+            "Pagina" => isset($datosClientes['pagina']) ? (!empty($datosClientes['pagina']) ? $datosClientes['pagina'] : null) : null,
         ];
 
         try{

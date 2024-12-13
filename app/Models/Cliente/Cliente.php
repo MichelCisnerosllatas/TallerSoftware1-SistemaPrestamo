@@ -108,10 +108,10 @@ class Cliente extends Model {
         $datos = [
             "Accion" => "2",
             "IdUsuario" => isset($datosClientes['idUsuario']) ? (!empty($datosClientes['idUsuario']) ? $datosClientes['idUsuario'] : null) : null,
-            'IdEmpresa' => isset($datosClientes['idEmpresa']) ? (!empty($datosClientes['idEmpresa']) ? $datosClientes['idEmpresa'] : "") : "",
-            "Estado" => isset($datosClientes['estado']) ? (!empty($datosClientes['estado']) ? $datosClientes['estado'] : "") : "",
-            "Fila" => isset($datosClientes['fila']) ? (!empty($datosClientes['fila']) ? $datosClientes['fila'] : null) : null,
-            "Pagina" => isset($datosClientes['pagina']) ? (!empty($datosClientes['pagina']) ? $datosClientes['pagina'] : null) : null,
+            'IdEmpresa' => isset($datosClientes['idEmpresa']) ? (!empty($datosClientes['idEmpresa']) ? $datosClientes['idEmpresa'] : "") : null,
+            "Estado" => isset($datosClientes['estado']) ? (!empty($datosClientes['estado']) ? $datosClientes['estado'] : "") : null,
+            "Fila" => isset($datosClientes['fila']) ? (!empty($datosClientes['fila']) ? $datosClientes['fila'] : '') : null,
+            "Pagina" => isset($datosClientes['pagina']) ? (!empty($datosClientes['pagina']) ? $datosClientes['pagina'] : '') : null,
         ];
 
         try{

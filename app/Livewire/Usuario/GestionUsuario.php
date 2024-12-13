@@ -6,27 +6,35 @@ use App\Models\Direccion\Direccion;
 use App\Models\Empresa\Empresa;
 use App\Models\Persona;
 use App\Models\Usuario\Usuario;
+use App\Models\Cliente\Cliente as ClienteModel;
 use App\Models\Usuario\UsuarioSec as UsuarioSecModel;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class GestionUsuario extends Component {
 
     public string $nombre;
     public string $apellido;
-    public string $correo;
+    public string $correoUsuarioSec;
     public string $celular;
-    public string $direccion;
-    public string $referencia;
+    public string $direccionUsuarioSec;
+    public string $referenciaUsuarioSec;
     public $clave;
     public string $numdoc;
     public int $tipodoc;
     public int $idPersona;
     public int $idUsuario;
+    public int $idUsuarioSec;
     public $fechaRegistro;
+    public int $totalRegistros = 1;
+    public int $totalPagina = 1;
+    public int $filaUsuarioSec = 10;
+    public int $paginaUsuarioSec = 1;
 
     public int $count = 1;
     public bool $loading = false;
     public $confirmarClave;
+    public $tipoRolUserSec;
     public $editIndex = null; // Índice del usuario que se está editando
 
     public bool $modalNuevoUsuario = false;
@@ -34,56 +42,40 @@ class GestionUsuario extends Component {
     public array $usuarios = [];
 
     public string $search = ''; // Término de búsqueda
+    public int $idUser;
 
 
-
-    public function mount(): void
-    {
+    public function mount(): void {
         $this->listarUsuarios();
     }
 
-    protected array $rules = [
-        'nombre'          => 'required|min:3',
-        'apellido'        => 'required|min:3',
-        'correo'          => 'required|email',
-        'celular'         => 'required|numeric|min:9',
-        'direccion'       => 'required',
-        'referencia'      => 'nullable',
-        'clave'           => 'required|min:6',
-        'confirmarClave'  => 'required|same:clave',
-        'tipodoc'         => 'required',
-        'numdoc'          => 'required|numeric',
-    ];
 
+    #[On('mantenimientoUsuarioSecRecibedesdeJS')]
+    public function mantenimientoUsuarioSec($datos): void {
+        $this->nombre         = $datos['nombreUserSec'];
+        $this->apellido       = $datos['apellidoUserSec'];
+        $this->correoUsuarioSec         = $datos['correoUserSec'];
+        $this->celular        = $datos['celularUserSec'];
+        $this->direccionUsuarioSec      = $datos['direccionUserSec'];
+        $this->referenciaUsuarioSec     = $datos['referenciaUserSec'];
+        $this->clave          = $datos['claveUserSec'];
+        $this->confirmarClave = $datos['confirmarClaveUserSec'];
+        $this->tipodoc        = $datos['tipoDocumentoUserSec'];
+        $this->numdoc         = $datos['numdocUserSec'];
+        $this->tipoRolUserSec = $datos['tipoRolUserSec'];
+        $this->CrearUsuarioSec();
+    }
 
     public function CrearUsuarioSec(): void {
-        $tipo = "";
-        $this->validate();
-        $this->loading = true;
-        $this->fechaRegistro = Date("Y-m-d H:i:s");
 
+        $this->fechaRegistro = Date("Y-m-d H:i:s");
         try {
             $modeloPersona   = new Persona();
             $modeloUsuario   = new Usuario();
             $modeloEmpresa   = new Empresa();
             $modeloDireccion = new Direccion();
             $modeloCelular   = new Celular();
-
-            if(empty($this->numdoc) || empty($this->correo) || empty($this->nombre) || empty($this->apellido)) {
-                if(!empty($this->correo)){
-                    $tipo = "1";
-                }
-
-                if(!empty($this->numdoc)){
-                    $tipo = "2";
-                }
-
-                if(!empty($this->nombre) || empty(!$this->apellido)){
-                    $tipo = "3";
-                }
-            }
-
-
+            $PersonaJson = "";
 
             // Validación de que las contraseñas coinciden
             if ($this->clave != $this->confirmarClave) {
@@ -92,44 +84,127 @@ class GestionUsuario extends Component {
                 $this->loading = false;
                 return;
             }
-
-
-            // 1. Verificar si la Persona existe (llamando al método ExistePersona del modelo Persona)
-            $PersonaJson = $modeloPersona->ExistePersona(['valor' => $this->correo, 'tipo' => $tipo]);
-            if (!isset($PersonaJson['result']) || empty($PersonaJson['result']['data'])) {
-                $PersonaJson = $modeloPersona->InsertarPersona([
-                    'nombre'        => $this->nombre,
-                    "apellido"      => $this->apellido,
-                    "tipoDoc"       => $this->tipodoc,
-                    'numDoc'        => $this->numdoc,
-                    'correo'        => $this->correo,
-                    "fechaRegistro" => $this->fechaRegistro,
+            //Agregué esto
+            if(!empty($this->numdoc) || !empty($this->correoUsuarioSec) || !empty($this->nombre) || !empty($this->apellido) || !empty($this->apellido)) {
+                $PersonaJson = $modeloPersona ->ExistePersona([
+                    "valor" => $this->nombre . ' ' . $this->apellido,
+                    "tipo" => "3"
                 ]);
 
-                // Verificamos si la inserción fue exitosa
-                if (!isset($PersonaJson['result']['success']) || !$PersonaJson['result']['success']) {
-                    throw new \Exception($PersonaJson['result']['message'] ?? 'Error desconocido al insertar la persona');
+                if ($PersonaJson['result']['data'] != null) {
+                    $this->idPersona = $PersonaJson['result']['data'][0]['IdPersona'];
+                }else{
+                    $PersonaJson = $modeloPersona ->ExistePersona([
+                        "valor" => $this->numdoc,
+                        "tipo" => "2"
+                    ]);
+
+                    if ($PersonaJson['result']['data'] != null){
+                        $this->idPersona = $PersonaJson['result']['data'][0]['IdPersona'];
+                    }
+                    else{
+                        $PersonaJson = $modeloPersona ->ExistePersona([
+                            "valor" => $this->numdoc,
+                            "tipo" => "1"
+                        ]);
+
+                        if ($PersonaJson['result']['data'] != null){
+                            $this->idPersona = $PersonaJson['result']['data'][0]['IdPersona'];
+                        }
+                    }
                 }
             }
-            // Extraemos el IdPersona después de la inserción o de la búsqueda
-            if (isset($PersonaJson['result']['data'][0]['IdPersona'])) {
-                $this->idPersona = $PersonaJson['result']['data'][0]['IdPersona'];
-            } else {
-                throw new \Exception('No se pudo obtener el IdPersona después de insertar la persona.');
+            //hasta aqui
+            if(isset($PersonaJson['result']['data'][0]['IdPersona']) || $PersonaJson["result"]["data"] != null || !empty($PersonaJson['result']['data'])){
+                //2 Verificamos si la direccion existe
+                $DireccionJson = $modeloDireccion->ExisteDireccion([
+                    'idPersona' => $this->idPersona,
+                    'direccion'   => $this->direccionUsuarioSec,
+                ]);
+                if($DireccionJson["result"]["data"] != null || !empty($DireccionJson['result']['data'])){
+                    $this->dispatch('SweetAlertPrincipal', [
+                        'icon' => 'warning', // O 'success', 'error', etc.
+                        'title' => 'La dirección ya Existe',
+                        'text' => 'los datos del celular, coinciden con un cliente registrado, por favor verifique',
+                        'showCancelButton' => false,
+                        'confirmButtonText' => 'Aceptar',
+                        'timer' => 10000,
+                    ]);
+                    return;
+                }
+                //3 VERIFICAMOS SI EL CELULAR YA EXISTE
+                $CelularJson = $modeloCelular ->ExisteCelular([
+                    "idPersona" => $this->idPersona,
+                    "celular" => $this->celular,
+                ]);
+                if($CelularJson["result"]["data"] != null || !empty($CelularJson['result']['data'])){
+                    $this->dispatch('SweetAlertPrincipal', [
+                        'icon' => 'warning', // O 'success', 'error', etc.
+                        'title' => 'El Celular ya Existe',
+                        'text' => 'los datos del celular, coinciden con un cliente registrado, por favor verifique',
+                        'showCancelButton' => false,
+                        'confirmButtonText' => 'Aceptar',
+                        'timer' => 10000,
+                    ]);
+                    return;
+                }
+
             }
 
-            //Celular
-            $CelularJson = $modeloCelular->ExisteCelular([
-                'idPersona' => $this->idPersona,
-                'celular'   => $this->celular,
+            // 1. Verificar si la Persona existe (llamando al método ExistePersona del modelo Persona)
+
+            $PersonaJson = $modeloPersona->InsertarPersona([
+                'nombre'        => $this->nombre,
+                "apellido"      => $this->apellido,
+                "tipoDoc"       => $this->tipodoc,
+                'numDoc'        => $this->numdoc,
+                'correo'        => $this->correoUsuarioSec,
+                "fechaRegistro" => $this->fechaRegistro,
             ]);
-
-            if (isset($CelularJson['result']['data']) && !empty($CelularJson['result']['data'])) {
-                // Si el celular ya existe, muestra un mensaje al usuario
-                session()->flash('error', 'El número de celular ya está registrado.');
-                $this->loading = false;
-                return; // Detenemos la ejecución para no insertar un celular duplicado
+            // Verificamos si la inserción fue exitosa
+            if (!isset($PersonaJson['result']['success']) || !$PersonaJson['result']['success']) {
+                throw new \Exception($PersonaJson['result']['message'] ?? 'Error desconocido al insertar la persona');
             }
+            else{
+                // Extraemos el IdPersona después de la inserción o de la búsqueda
+                if (isset($PersonaJson['result']['data'][0]['IdPersona'])) {
+                    $this->idPersona = $PersonaJson['result']['data'][0]['IdPersona'];
+                } else {
+                    throw new \Exception('No se pudo obtener el IdPersona después de insertar la persona.');
+                }
+            }
+
+//            $DireccionJson = $modeloDireccion->ExisteDireccion([
+//                'idPersona' => $this->idPersona,
+//                'direccion'   => $this->direccionUsuarioSec,
+//            ]);
+//            if($DireccionJson["result"]["data"] != null || !empty($DireccionJson['result']['data'])){
+//                $this->dispatch('SweetAlertPrincipal', [
+//                    'icon' => 'warning', // O 'success', 'error', etc.
+//                    'title' => 'La dirección ya Existe',
+//                    'text' => 'los datos del celular, coinciden con un cliente registrado, por favor verifique',
+//                    'showCancelButton' => false,
+//                    'confirmButtonText' => 'Aceptar',
+//                    'timer' => 10000,
+//                ]);
+//                return;
+//            }
+//            //3 VERIFICAMOS SI EL CELULAR YA EXISTE
+//            $CelularJson = $modeloCelular ->ExisteCelular([
+//                "idPersona" => $this->idPersona,
+//                "celular" => $this->celular,
+//            ]);
+//            if($CelularJson["result"]["data"] != null || !empty($CelularJson['result']['data'])){
+//                $this->dispatch('SweetAlertPrincipal', [
+//                    'icon' => 'warning', // O 'success', 'error', etc.
+//                    'title' => 'El Celular ya Existe',
+//                    'text' => 'los datos del celular, coinciden con un cliente registrado, por favor verifique',
+//                    'showCancelButton' => false,
+//                    'confirmButtonText' => 'Aceptar',
+//                    'timer' => 10000,
+//                ]);
+//                return;
+//            }
 
             // Si no existe, procedemos a insertarlo
             $CelularJson = $modeloCelular->InsertarCelular([
@@ -144,20 +219,18 @@ class GestionUsuario extends Component {
                 throw new \Exception($CelularJson['result']['message'] ?? 'Error desconocido al insertar el celular.');
             }
 
-            $DireccionJson = $modeloDireccion->ExisteDireccion([
-                'idPersona' => $this->idPersona,
-                'celular'   => $this->celular,
-            ]);
 
-            if(isset($DireccionJson['result']) || $DireccionJson['result']['data'] == null || !$DireccionJson['result']['success']) {
+
+
+            if(!empty($this->direccionUsuarioSec)){
                 $DireccionJson = $modeloDireccion -> InsertarDireccion([
                     "idPersona" => $this->idPersona,
                     "idPais" => "42",
                     "idDepartamento" => "15",
                     "idDistrito" => "976",
                     "idProvincia" => "141",
-                    "direccion" => $this->direccion,
-                    "referencia" => $this->referencia,
+                    "direccion" => $this->direccionUsuarioSec,
+                    "referencia" => $this->referenciaUsuarioSec,
                     "fechaRegistro" => $this->fechaRegistro,
                 ]);
                 if (!isset($DireccionJson['result']['success']) || !$DireccionJson['result']['success']) {
@@ -165,25 +238,33 @@ class GestionUsuario extends Component {
                 }
             }
 
-
-            // 2. Verificar si el Usuario existe (llamando al método ExisteUsuario del modelo Usuario)
+            //2 Verificamos si el Usuario Existe
             $UsuarioJson = $modeloUsuario->ExisteUsuario([
                 'idPersona' => $this->idPersona,
-                'login' => $this->correo,
+                'login' => $this->correoUsuarioSec,
+            ]);
+            if($UsuarioJson["result"]["data"] != null || !empty($UsuarioJson['result']['data'])){
+                $this->dispatch('SweetAlertPrincipal', [
+                    'icon' => 'warning', // O 'success', 'error', etc.
+                    'title' => 'El Usuario ya Existe',
+                    'text' => 'los datos del celular, coinciden con un Usuario registrado, por favor verifique',
+                    'showCancelButton' => false,
+                    'confirmButtonText' => 'Aceptar',
+                    'timer' => 10000,
+                ]);
+                return;
+            }
+            // 2. Verificar si el Usuario existe (llamando al método ExisteUsuario del modelo Usuario)
+            $UsuarioJson = $modeloUsuario->InsertarUsuario([
+                'idRol'     => $this->tipoRolUserSec,
+                'idPersona' => $this->idPersona,
+                'login'     => $this->correoUsuarioSec,
+                'clave'     => $this->clave,
             ]);
 
-            if (!isset($UsuarioJson['result']) || !isset($UsuarioJson['result']['success']) || !$UsuarioJson['result']['success']) {
-                $UsuarioJson = $modeloUsuario->InsertarUsuario([
-                    'idRol' => "1",
-                    'idPersona' => $this->idPersona,
-                    'login'     => $this->correo,
-                    'clave'     => $this->clave
-                ]);
-
-                // Verificamos si la inserción fue exitosa
-                if (!isset($UsuarioJson['result']['success']) || !$UsuarioJson['result']['success']) {
-                    throw new \Exception($UsuarioJson['result']['message'] ?? 'Error desconocido al insertar el Usuario');
-                }
+            // Verificamos si la inserción fue exitosa
+            if (!isset($UsuarioJson['result']['success']) || !$UsuarioJson['result']['success']) {
+                throw new \Exception($UsuarioJson['result']['message'] ?? 'Error desconocido al insertar el Usuario');
             }
 
             // Extraemos el IdUsuario después de la inserción o de la búsqueda
@@ -196,30 +277,61 @@ class GestionUsuario extends Component {
             //3.INSERTAMOS EN USARIOEMPRESA
             $EmpresaJson = $modeloEmpresa->InsertarUsuarioEmpresa([
                 'idEmpresa' => session('usuariologin')['IdEmpresa'],
-//                'idEmpresa' => "1",
-                'idUsuario' => $this->idUsuario
+                //                'idEmpresa' => "1",
+                'idUsuario' => $this->idUsuario,
             ]);
 
             if (!$EmpresaJson['result']['success']) {
                 throw new \Exception("No se pudo insertar el usuario: " . $EmpresaJson['result']['message']);
             }
 
+            $this->dispatch('terminadomantenimientoUsuarioSecJS');
+            $this->listarUsuarios();
+            $this->dispatch('SweetAlertPrincipal',[
+                'icon'  =>'success',
+                'title'=>'Exitoso',
+                'text'  =>'Usuario Creado Exitosamente',
+                'confirmButtonText'=> 'Aceptar',
+            ]);
 
-//            $this->reset(); // Limpia los campos después de guardar
-//            session()->flash('message', 'Usuario registrado con éxito.');
 
-            $this->limpiarvaraibles();
-            $this->cerrarModalUsuarioMant();
 
             // Llamar a SweetAlert
             //Alert::success('Registro Exitoso', 'El usuario ha sido registrado correctamente.');
         } catch (\Exception $e) {
             session()->flash('error', $e->getMessage());
         }
-
-        $this->loading = false;
+        //        $this->loading = false;
     }
 
+    //Para Reciclar
+    #[On('reciclarUsuarioSecJS')]
+    public function reciclarUsuarioSec($datosUsuario) : void {
+        $this->idUsuarioSec = $datosUsuario['IdUsuario'];
+        try{
+            $modeloUsuarioSec = new UsuarioSecModel();
+            $jsonUsuarioSec = $modeloUsuarioSec->EliminarUsuarioSec([
+                "idUsuario" => $this->idUsuarioSec
+            ]);
+
+            if(!$jsonUsuarioSec["result"]["success"]){
+                throw new \Exception($jsonUsuarioSec["result"]["message"]);
+            }
+
+            $this->listarUsuarios();
+            $this->dispatch('usuarioSecRecicladoExitosamente');
+        }
+        catch (\Exception $ex){
+            $this->dispatch('SweetAlertPrincipal', [
+                'icon' => 'error', // O 'success', 'error', etc.
+                'title' => 'Error',
+                'text' => $ex->getMessage(),
+                'showCancelButton' => false,
+                'confirmButtonText' => 'Aceptar',
+                'timer' => 10000,
+            ]);
+        }
+    }
 
     public function abrirmodalNuevoUsuario(): void
     {
@@ -233,47 +345,41 @@ class GestionUsuario extends Component {
         $this -> limpiarvaraibles();
     }
 
-    public function limpiarvaraibles(): void
-    {
-        $this->nombre = '';
-        $this->apellido = '';
-        $this->celular = '';
-        $this->direccion = '';
-        $this->referencia = '';
-        $this->correo = '';
-        $this->tipodoc = 0;
-        $this->numdoc = '';
-        $this->idPersona = 0;
-        $this->fechaRegistro = '';
-        $this->count = 1;
-        $this->clave = '';
-        $this->confirmarClave = '';
-    }
-
     public function updatedSearch(): void {
         $this->listarUsuarios();
     }
 
+//    protected $listeners = ['listarUsuarioSecJS' => 'listarUsuarios'];
     public function listarUsuarios(): void {
+        $idUsuarioLogeado = session('usuariologin')['IdUsuario'];
         try {
             $usuarioSecModel = new UsuarioSecModel();
             $response = $usuarioSecModel->ListarUsuarioSec([
                 'idEmpresa' => session('usuariologin')['IdEmpresa'],
                 'estado' => 'Activo',
-                'fila' => 10,
-                'pagina' => 1,
-                'search' => $this->search, // Agrega el término de búsqueda aquí
+                'IdUsuarioLogeado' => $idUsuarioLogeado,
+                'fila' => $this->filaUsuarioSec,
+                'pagina' => $this->paginaUsuarioSec,
+//                'search' => $this->search, // Agrega el término de búsqueda aquí
             ]);
 
-            // Verificar si la respuesta es válida y tiene éxito
-            if ($response['result']['success']) {
-                $this->usuarios = $response['result']['data'];
-            } else {
+
+            if (!$response['result']['success']) {
                 throw new \Exception('Error en la API: ' . $response['result']['message']);
             }
+            // Verificar si la respuesta es válida y tiene éxito
+            if ($response['result']['data'] != null) {
+                $this->totalPagina = $response['result']['totalPaginas'];
+                $this->totalRegistros = $response['result']['totalRegistros'];
+                $this->usuarios = $response['result']['data'];
+            } else {
+                $this->usuarios = [];
+            }
         } catch (\Exception $e) {
-            session()->flash('error', 'Ocurrió un error al cargar los clientes: ' . $e->getMessage());
+            session()->flash('error', 'Ocurrió un error al cargar los Usuarios: ' . $e->getMessage());
         }
+
+//        $this->dispatch('miEventoLivewire', ['mensaje' => 'Hola desde Livewire']);
     }
 
     public function abrirModalUsuarioMant(): void
@@ -288,6 +394,46 @@ class GestionUsuario extends Component {
         // Emitir evento hacia el frontend
         $this->cerrarmodalNuevoUsuario();
         $this->dispatch('mostrarUsuarioCreadoAlert');
+    }
+
+    #[On('buscarUsuarioSecJS')]
+    public function buscarUsuarioSec($buscar): void {
+        try {
+            $usuarioSecModel = new ClienteModel();
+            $response = $usuarioSecModel->BuscarCliente([
+                "idusuario" => session('usuariologin')['IdUsuario'],
+                "buscar" => $buscar
+            ]);
+
+            // Verificar si la respuesta es válida y tiene éxito
+            if (!$response['result']['success']) {
+                throw new \Exception('Error en la API: ' . $response['result']['message']);
+            }
+
+            if($response['result']['data'] != null){
+                $this->usuarios = $response['result']['data'];
+            }else{
+                $this->usuarios = [];
+            }
+        } catch (\Exception $e) {
+            session()->flash('error', 'Ocurrió un error al cargar los clientes: ' . $e->getMessage());
+        }
+
+    }
+
+
+    #[On('selectUsuarioSecfilas')]
+    public function selectUsuarioSecfilas($datosUsuarioSec):void {
+        $this->filaUsuarioSec = $datosUsuarioSec;
+        $this->listarUsuarios();
+    }
+
+    #[On('eliminarUsuarioSecRecibedesdeJS')]
+    public function eliminarUsuarioSec($datos): void{
+        $usuarioSecModel = new UsuarioSecModel();
+        $response = $usuarioSecModel->EliminarUsuarioSec([
+            'idUsuario' => $this->idUsuario,
+        ]);
     }
 
     public function render()

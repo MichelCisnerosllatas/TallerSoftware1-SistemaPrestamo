@@ -45,9 +45,10 @@ class Empresa extends Model {
         }
     }
 
-    public function InsertarEmpresa($datosEmpresa) {
+    public function CrearEmpresa($datosEmpresa) {
         $payload = [
             "Accion" => "1",
+            'IdUserEmpresa' => $datosEmpresa['IdUserEmpresa'] ?? null,
             'IdTipoEmpresa' => $datosEmpresa['IdTipoEmpresa'] ?? null,
             'NombreEmpresa' => $datosEmpresa['NombreEmpresa'] ?? null,
             'Identificacion' => $datosEmpresa['Identificacion'] ?? null,
@@ -55,8 +56,7 @@ class Empresa extends Model {
         ];
         try{
             $response = Http::timeout(10)->retry
-            (3, 100)->asForm()->post($this-> $payload
-
+            (3, 100)->asForm()->post($this->UrlApi, $payload
             );
             if(!$response -> successful()){
                 throw new \Exception('Error en el servidor');
@@ -68,6 +68,48 @@ class Empresa extends Model {
             }
 
             return $body;
+
+        }catch (RequestException $e){
+            throw new \Exception(message: "Problema de conexion con el servidor "  .$e->getMessage());
+        }catch (\Exception $e){
+            throw new \Exception("Error al insertar la empresa" . $e->getMessage());
+
+        }
+
+    }
+
+    public function CrearEmpresa2($datosEmpresa) {
+        $payload = [
+            "Accion" => "1",
+            'IdTipoEmpresa' => $datosEmpresa['IdTipoEmpresa'] ?? null,
+            'NombreEmpresa' => $datosEmpresa['NombreEmpresa'] ?? null,
+            'Identificacion' => $datosEmpresa['Identificacion'] ?? null,
+            "FechaRegistro" => Carbon::now()->toDateTimeString(),
+        ];
+        try{
+            $response = Http::timeout(10)->retry
+            (3, 100)->asForm()->post($this->UrlApi, $payload
+
+            );
+            if(!$response -> successful()){
+                throw new \Exception('Error en el servidor');
+            }
+
+            $body = $response->json();
+
+            if(isset($body['result']['message']) && $body['result']['message'] == "Error,la Empresa ya Existe"){
+                return [
+                    'result' => [
+                        'success' => false,
+                        'message' => 'La empresa ya existe, por favor verifique los datos.'
+                    ]
+                ];
+            }
+            if(!$body['result']['success'])
+            {
+                throw new \Exception('Error desde el backend ' .$body['result']['message']);
+            }
+            return  $body;
 
         }catch (RequestException $e){
             throw new \Exception(message: "Problema de conexion con el servidor "  .$e->getMessage());

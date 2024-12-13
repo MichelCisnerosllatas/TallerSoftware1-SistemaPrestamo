@@ -41,14 +41,13 @@
 
 .ventana-content-NuevoPrestamo .ventana-form-container .container {
     border-radius: 5px;
-    background-color: #f2f2f2;
+    background: var(--color-blanco);
+    /*background-color: #f2f2f2;*/
     padding: 20px;
     flex: 1 1 45%;
     overflow-y: auto;
     height: calc(82vh - 3rem);
 }
-
-
 
 .ventana-content-NuevoPrestamo input[type=text], .ventana-content-NuevoPrestamo select, .ventana-content-NuevoPrestamo textarea {
     width: 100%;
@@ -65,12 +64,6 @@
 
 .ventana-content-NuevoPrestamo .ventana-form-container .container input[type=submit]:hover {
     background-color: #45a049;
-}
-
-.ventana-content-NuevoPrestamo .ventana-form-container .container {
-    border-radius: 5px;
-    background-color: #f2f2f2;
-    padding: 20px;
 }
 
 .ventana-form-container .divlabelsValoresPrestamos {
@@ -92,62 +85,6 @@
     clear: both;
 }
 
-/* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
-/*@media screen and (max-width: 600px) {*/
-/*    .divlabelsValoresPrestamos, .divlabelsPrestamos, input[type=submit] {*/
-/*        width: 100%;*/
-/*        margin-top: 0;*/
-/*    }*/
-/*}*/
-/*.ventana-content-NuevoPrestamo .ventana-form-container input[type=text], select, textarea {*/
-/*    width: 100%;*/
-/*    padding: 12px;*/
-/*    border: 1px solid #ccc;*/
-/*    border-radius: 4px;*/
-/*    resize: vertical;*/
-/*}*/
-
-/*.ventana-content-NuevoPrestamo .ventana-form-container label {*/
-/*    padding: 12px 0px 12px 0;*/
-/*    display: inline-block;*/
-/*}*/
-
-/*.ventana-content-NuevoPrestamo .ventana-form-container input[type=submit] {*/
-/*    background-color: #04AA6D;*/
-/*    color: white;*/
-/*    padding: 12px 20px;*/
-/*    border: none;*/
-/*    border-radius: 4px;*/
-/*    cursor: pointer;*/
-/*    float: right;*/
-/*}*/
-
-/*.ventana-content-NuevoPrestamo .ventana-form-container input[type=submit]:hover {*/
-/*    background-color: #45a049;*/
-/*}*/
-
-/*!* Las filas y las columnas se organizan con flexbox *!*/
-
-/*.ventana-content-NuevoPrestamo .ventana-form-container .container .divlabelsValoresPrestamos {*/
-/*    float: left;*/
-/*    width: 25%;*/
-/*    margin-top: 6px;*/
-/*}*/
-
-/*.ventana-content-NuevoPrestamo .ventana-form-container .container .divlabelsPrestamos {*/
-/*    float: left;*/
-/*    width: 75%;*/
-/*    margin-top: 6px;*/
-/*}*/
-
-/*!* Clear floats after the columns *!*/
-/*.ventana-content-NuevoPrestamo .ventana-form-container .container .divprestamoaleatorios:after {*/
-/*    content: "";*/
-/*    display: table;*/
-/*    clear: both;*/
-/*}*/
-
-/*!* ventana Footer *!*/
 .ventana-content-NuevoPrestamo .ventanaPrestamoFooter {
     background-color: #f9f9f9;
     border-top: 1px solid #ddd;
@@ -159,6 +96,8 @@
     bottom: 0;
     width: 100%;
 }
+
+
 
 
 
@@ -217,7 +156,7 @@
     left: 50%;
 }
 
-/* Modal Header */
+/*!* Modal Header *!*/
 .modalListadoClientePrestamoSombra .modal-content .modalClienteHeader {
     display: flex;
     justify-content: space-between;
@@ -226,75 +165,9 @@
     padding: 10px;
 }
 
-.modalListadoClientePrestamoSombra .modal-content .modalClienteHeader .modal-title {
-    margin: 0;
-    font-size: 1.5em;
-}
 
-/* Modal Form Container (scrollable) */
-.modalListadoClientePrestamoSombra .modal-content .modal-form-container {
-    /*flex: 1;*/
-    /*overflow-y: auto; !* Solo el formulario tiene scroll *!*/
-    /*padding: 0 10px;*/
-    /*max-height: 60vh; !* Máxima altura para el formulario *!*/
-}
 
-/* Modal Footer */
-.modalListadoClientePrestamoSombra .modal-content .modalClienteFooter {
-    background-color: #f9f9f9;
-    border-top: 1px solid #ddd;
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    padding: 10px;
-}
 
-/* Inputs */
-.modal-body-nuevociente input, .modal-body-nuevociente .selectPrestamo {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: none; /* Elimina la sombra de los inputs */
-}
-
-.modal-body-nuevociente .input-error{
-    border-color: var(--color-rojo);
-}
-
-/* Eliminar efectos de desenfoque en los inputs */
-.modal-body-nuevociente input:focus, .modal-body-nuevociente .selectPrestamo:focus {
-    outline: none;  /* Elimina el contorno de los inputs */
-    box-shadow: none;  /* Elimina la sombra cuando el input está en foco */
-    border-color: #ccc;  /* Mantiene el borde normal */
-}
-
-/* Estilos para el formulario en dos columnas */
-.modal-body-nuevociente .input-group {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Dos columnas */
-    gap: 20px; /* Espacio entre columnas */
-}
-
-.modal-body-nuevociente .input-item {
-    display: flex;
-    flex-direction: column;
-}
-
-/* Scrollbar Styling */
-.modalListadoClientePrestamoSombra .modal-content .modal-form-container::-webkit-scrollbar {
-    width: 8px;
-}
-
-.modalListadoClientePrestamoSombra .modal-content .modal-form-container::-webkit-scrollbar-thumb {
-    background: var(--color-azul-marino);
-    border-radius: 8px;
-}
-
-.modalListadoClientePrestamoSombra .modal-content .modal-form-container::-webkit-scrollbar-thumb:hover {
-    background: var(--color-azul-marino);
-}
 
 
 
@@ -353,149 +226,141 @@
 
 
 
-
-/*tabla Prestamo */
-/* Estilo general para el div contenedor de la tabla */
+/* General container for table */
 .divtablaPrestamo {
     width: 100%;
-    overflow: auto; /* Permitir el scroll independiente del contenedor de la tabla */
-    border: 1px solid #ddd;
+    overflow: auto;
+    border: 1px solid white;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    height: calc(100vh - 6rem); /* Ajuste para que la tabla ocupe el espacio disponible sin desbordar */
     display: flex;
     flex-direction: column;
+    height: calc(100vh - 6rem); /* Ajuste para que la tabla ocupe el espacio disponible sin desbordar */
 }
 
-/* Estilo para la tabla */
+/* Table Style */
 .divtablaPrestamo table {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
-    flex-gdivprestamoaleatorios: 1;
-    overflow: auto; /* Permitir scroll horizontal y vertical */
+    /*height: 100px;*/
 }
 
-/* Control del scroll horizontal y vertical */
-.divtablaPrestamo table tbody {
-    display: block;
-    max-height: 100%;
-    overflow-y: auto;
-    overflow-x: auto;
-}
-
-.divtablaPrestamo table thead, .divtablaPrestamo table tbody tr {
-    display: table;
-    width: 100%;
-    table-layout: fixed;
-}
-
-/* Estilo para las celdas */
-.divtablaPrestamo th, .divtablaPrestamo td {
-    padding: 10px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-/* Ajuste de ancho para columnas específicas */
-.divtablaPrestamo th:nth-child(1), .divtablaPrestamo td:nth-child(1) {
-    text-align: center;
-    width: 10%;
-}
-.divtablaPrestamo th:nth-child(3), .divtablaPrestamo td:nth-child(3) {
-    width: 15%;
-    text-align: center;
-}
-.divtablaPrestamo th:nth-child(4), .divtablaPrestamo td:nth-child(4) {
-    text-align: center;
-    width: 20%;
-}
-.divtablaPrestamo th:nth-child(5), .divtablaPrestamo td:nth-child(5) {
-    text-align: center;
-    width: 13%;
-}
-
-/* Estilo para el encabezado */
-.divtablaPrestamo thead {
-    background-color: #f4f4f4;
-    font-weight: bold;
+.divtablaPrestamo table thead{
+    background-color: var(--color-azul-marino); /* O el color que prefieras */
+    color: white;
     position: sticky;
     top: 0;
     z-index: 1;
 }
 
-/* Estilo para los botones */
-.divtablaPrestamo button {
-    padding: 6px 7px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+.divtablaPrestamo tbody{
+    background: white;
+    /*overflow-y: auto;*/
+    /*overflow-x: auto;*/
 }
 
-.divtablaPrestamo .btneditarPrestamo {
-    background-color: var(--color-verde-oscuro);
-    color: white;
-}
-
-.divtablaPrestamo .btneliminarPrestamo {
-    background-color: var(--color-rojo);
-    color: white;
-}
-
-.divtablaPrestamo .btneliminarPrestamo svg,  .divtablaPrestamo .btneditarPrestamo svg{
-    width: 100%;
-    height: 100%;
-    pointer-events: none;  /* Para asegurarte de que el clic sea manejado por el botón */
+.divtablaPrestamo table th, .divtablaPrestamo table td {
+    padding: 10px;
+    text-align: left;
 }
 
 
-.divtablaPrestamo button:hover {
-    background-color: var(--color-azul-oscuro);
+.divtablaPrestamo tbody tr {
+    border-bottom: 1px solid #ddd; /* Línea gris clara */
 }
 
-/* Iconos en lugar de texto para botones */
-.divtablaPrestamo .accion-btn {
+/* Adjust columns */
+.divtablaPrestamo th:nth-child(1), .divtablaPrestamo td:nth-child(1) {
+    text-align: center;
+    /*display: none;*/
+    font-size: 12px;
+    width: 5%;
+}
+
+.divtablaPrestamo th:nth-child(2){
+    text-align: center;
+    width: 13%;
+}
+
+.divtablaPrestamo td:nth-child(2) {
+    font-size: 14px;
+
+}
+
+.divtablaPrestamo th:nth-child(3){
+    text-align: center;
+    width: 30%;
+}
+
+.divtablaPrestamo td:nth-child(3) {
+
+    font-size: 13px;
+}
+
+.divtablaPrestamo th:nth-child(4), .divtablaPrestamo td:nth-child(4) {
+    text-align: center;
+    width: 10%;
+}
+
+.divtablaPrestamo th:nth-child(5), .divtablaPrestamo td:nth-child(5) {
+    text-align: center;
+    width: 2.5%;
+}
+
+/* Section for details in "Prestado" column */
+.prestamo-detalles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /*gap: 5px;*/
+}
+
+.prestamo-columna {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px 0 8px;
 }
 
-.divtablaPrestamo .accion-btn button {
-    padding: 2px;
+/* Details Text */
+.prestamo-clave {
+    font-weight: normal;
+    color: #333;
 }
 
-.divtablaPrestamo .accion-btn button::before {
-    content: '\270E'; /* Icono de lápiz para "editar" */
-    font-size: 16px;
-    color: white;
+.prestamo-valor {
+    font-weight: bold;
+    color: var(--color-negro);
+    /*color: #007BFF;*/
 }
 
-/* Efecto en las filas */
+/* Adjust for Fecha Registro */
+.fecha-registro {
+    display: flex;
+    flex-direction: column;
+}
+
+.fecha-clave, .hora-clave {
+    font-size: 12px;
+    color: #555;
+}
+
+.fecha-clave span, .hora-clave span {
+    font-weight: bold;
+}
+
+/* Hover effects for rows */
 .divtablaPrestamo tbody tr:hover {
-    background-color: #f1f1f1;
+    background-color: #f4f4f4;
 }
 
-/* Barra de scroll personalizada */
-.divtablaPrestamo table tbody::-webkit-scrollbar {
-    width: 8px;
-}
 
-.divtablaPrestamo table tbody::-webkit-scrollbar-thumb {
-    background-color: #888;
-    border-radius: 4px;
-}
 
-.divtablaPrestamo table tbody::-webkit-scrollbar-thumb:hover {
-    background-color: #555;
-}
 
-.divtablaPrestamo .imagen-Prestamo {
-    width: 50px; /* Ajusta el tamaño según tus necesidades */
-    height: 50px;
-    border-radius: 50%;
-    object-fit: cover; /* Ajusta la imagen para que encaje bien dentro del contenedor */
-    border: 1px solid #ddd;
-}
+
+
+
+
+
 
 
 /*estilo del div cuando no hay registros */
@@ -518,34 +383,80 @@
     font-weight: bold;
 }
 
-
-
-
-
-
-
-
-
-
-/* Habilitar click derecho y doble clic */
-.divtablaPrestamo td {
-    /*el User-selectPrestamo sirve para poder copiar el contenido de la tabla*/
-    /*user-selectPrestamo: none;*/
+.menuopcionesprestamo {
+    position: absolute;
+    display: none;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    font-family: Arial, sans-serif;
+    box-sizing: border-box;
+    left: 50%; /* Centra el menú horizontalmente con respecto al botón */
+    transform: translateX(-100%); /* Ajusta el menú para que se expanda hacia la izquierda */
+    width: 150px; /* Establece un ancho para el menú */
+    max-height: 250px; /* Limita la altura máxima del menú */
+    /*overflow-y: auto; !* Permite el desplazamiento en caso de que el contenido sea más alto que el menú *!*/
+    z-index: 9999; /* Asegura que el menú se muestre encima de otros elementos */
+    /*overflow-y: auto;*/
 }
 
-.divtablaPrestamo td {
-    /*aca es dentro del td*/
-    /*cursor: pointer;*/
+.menuopcionesprestamo label {
+    /*text-decoration: none;*/
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 15px;
+    font-size: 14px;
+    font-weight: bold;
 }
 
-.divtablaPrestamo tbody tr {
-    /*aca es dentro de las filas*/
-    /*cursor: pointer;*/
+.menuopcionesprestamo label:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
 }
+
+/*.btneditarPrestamo {*/
+/*    cursor: pointer;*/
+/*}*/
+
+
+
+
+
 
 
 /*!* Responsivo para pantallas pequeñas *!*/
 @media screen and (max-width: 950px) {
+    .divtablaPrestamo th:nth-child(1), .divtablaPrestamo td:nth-child(1) {
+        width: 2%;
+        /*text-align: center;*/
+    }
+
+    .divtablaPrestamo th:nth-child(2), .divtablaPrestamo td:nth-child(2) {
+        width: 5%;
+        text-align: center;
+    }
+    .divtablaPrestamo th:nth-child(3), .divtablaPrestamo td:nth-child(3) {
+        /*display: none;*/
+        width: 15%;
+    }
+
+    .divtablaPrestamo th:nth-child(4), .divtablaPrestamo td:nth-child(4){
+        width: 8%;
+    }
+    .divtablaPrestamo th:nth-child(5), .divtablaPrestamo td:nth-child(5) {
+        width: 3%;
+        text-align: center;
+    }
+    /* Stack columns vertically in smaller screens */
+    .prestamo-detalles {
+        grid-template-columns: 1fr;
+    }
+
+    .prestamo-columna {
+        font-size: 12px;
+    }
+
     /* Cambiar a una sola columna en dispositivos pequeños */
     .ventana-content-NuevoPrestamo{
         height: auto;
@@ -593,5 +504,12 @@
     .divlabelsValoresPrestamos, .divlabelsPrestamos, input[type=submit] {
         width: 100%;
         margin-top: 0;
+    }
+}
+
+@media screen and (max-width: 600px){
+    .divtablaPrestamo thead{
+        font-size: 12px;
+        text-align: center;
     }
 }

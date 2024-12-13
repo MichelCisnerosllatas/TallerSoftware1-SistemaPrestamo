@@ -3,6 +3,7 @@
 namespace App\Livewire\Empresa;
 use App\Models\Empresa\Empresa;
 use Livewire\Component;
+use Illuminate\Support\Facades\Session;
 
 class Gestionempresa extends Component
 {
@@ -10,25 +11,24 @@ class Gestionempresa extends Component
     public int $fila = 10;//fila.pagina
     public int $pagina = 1;//paginas vista
     public string $activeTab = 'list'; //definido a la lista
-
-    public int $idtipoempresa;
+    public string $idtipoempresa;
     public string $nombreempresa;
     public $identificacion;
     public $fecharegistro;
     public $loading = false;
 
-    public function mount(): void{
-        $this->listarempresa();
-        //$this-> dispatch('mostrarSweetAlert');
-    }
+    public bool $isAdministrador = false;
 
-    public function setTab($tab)
+    public function mount(): void{
+        if( session('usuariologin')['IdRol'] === '2' || session('usuariologin')['IdRol'] === '3'){
+            $this->isAdministrador = true;
+        }
+    }
+    public function setTab($tab): void
     {
         $this->activeTab = $tab;
     }
-
-    public function listarempresa() : void
-    {
+    public function listarempresa() : void {
         try{
             $empresamodel = new Empresa();
 
@@ -53,50 +53,99 @@ class Gestionempresa extends Component
 
     }
 
-    public function InsertarEmpresa(): void
-    {
+    public function InsertarEmpresa(): void {
         $this->loading = true;
+        $this->fecharegistro = Date('Y-m-d H:i:s');
+        //obtener usuario logueado
 
+        $datosEmpresa = [
+            'IdUserEmpresa' => session('usuariologin')["IdUserEmpresa"],
+            'IdTipoEmpresa' => $this->idtipoempresa,
+            'NombreEmpresa' => $this->nombreempresa,
+            'Identificacion' => $this->identificacion,
+            'Fecharegistro' => $this->fecharegistro,
+        ];
         try{
             $modeloEmpresa = new Empresa();
-
-            $EmpresaJson = $modeloEmpresa->ExisteEmpresa(['Identificacion' => $this->identificacion
-            ]);
-            if ($EmpresaJson['result']['success'] && count($EmpresaJson['result']['data']) > 0)
-            {
-                throw  new \Exception('La empresa ya existe');
+            $response = $modeloEmpresa->CrearEmpresa($datosEmpresa);
+            // Verificar si la respuesta fue exitosa
+            if ($response['result']['success']) {
+                //session()->h('message', 'Empresa creada con éxito.');
+                $this->dispatch('SweetAlertPrincipal',[
+                    "icon" => "success",
+                    "title"=>"Registro Éxitoso",
+                    "confirmButtonText" => "OK",
+                ]);
+                $this->dispatch('logout-and-redirect');
+            } else {
+                $this->dispatch('SweetAlertPrincipal', [
+                    "icon" => "warning",
+                    "title" => "¡Advertencia!",
+                    "text" =>$response['result']['message'],
+                    "confirmButtonText" => "Cerrar",
+                ]);
             }
-            $response = $modeloEmpresa->InsertarEmpresa([
-                'IdTipoEmpresa' => $this->idtipoempresa,
-                'NombreEmpresa' => $this->nombreempresa,
-                'Identificacion' => $this->identificacion,
-                'FechaRegistro' => $this->fecharegistro,
-            ]);
-
-            if (!isset($response['result']['success']) || !$response['result']['success']) {
-                throw new \Exception($response['result']['message'] ?? 'Error al insertar la empresa.');
-            }
-            session()->flash('message', 'Empresa creada con éxito.');
-            $this->resetInputFields(); // Limpiar campos después de la creación.
-            $this->listarempresa(); // Actualizar la lista de empresas.
-            $this->setTab('list'); // Cambiar a la pestaña de listado
-
         }catch (\Exception $ex)
         {
-            session()->flash('error', 'Error al crear la empresa: ' . $ex->getMessage());
+            session()->flash('error', 'Error, la Empresa ya Existe: ' . $ex->getMessage());
         }
         $this->loading = false;
     }
+
     public function resetInputFields(): void
     {
-        $this->idtipoempresa = null;
-        $this->nombreempresa = null;
-        $this->identificacion = null;
-        $this->fecharegistro = null;
+        $this->idtipoempresa = '';
+        $this->nombreempresa = '';
+        $this->identificacion = '';
+        $this->fecharegistro = '';
+    }
+
+    public function editarEmpresa($IdEmpresa): void
+    {
+        try {
+            $modeloEmpresa = new Empresa();
+            $empresa = $modeloEmpresa->ObtenerEmpresaPorId($IdEmpresa); // Asegúrate de tener un método para obtener una empresa por su ID
+
+            if ($empresa) {
+                // Puedes usar un modal o redirigir a otra página de edición
+                $this->dispatch('showEditModal', ['empresa' => $empresa]);
+            } else {
+                session()->flash('error', 'Empresa no encontrada.');
+            }
+        } catch (\Exception $ex) {
+            session()->flash('error', 'Error al intentar editar la empresa: ' . $ex->getMessage());
+        }
+    }
+    public function eliminarEmpresa($IdEmpresa): void
+    {
+        try {
+            $modeloEmpresa = new Empresa();
+            $response = $modeloEmpresa->EliminarEmpresa($IdEmpresa); // Asegúrate de tener un método para eliminar una empresa
+
+            if ($response['result']['success']) {
+                $this->listarempresa(); // Recargar la lista de empresas después de eliminar
+                $this->dispatch('SweetAlertPrincipal', [
+                    "icon" => "success",
+                    "title" => "Eliminación Exitosa",
+                    "confirmButtonText" => "OK",
+                ]);
+            } else {
+                $this->dispatch('SweetAlertPrincipal', [
+                    "icon" => "warning",
+                    "title" => "¡Advertencia!",
+                    "text" => $response['result']['message'],
+                    "confirmButtonText" => "Cerrar",
+                ]);
+            }
+        } catch (\Exception $ex) {
+            session()->flash('error', 'Error al intentar eliminar la empresa: ' . $ex->getMessage());
+        }
     }
 
     public function render()
     {
-        return view('livewire.empresa.gestionempresa');
+        return view('livewire.empresa.gestionempresa', [
+            'isAdministrador' => $this->isAdministrador,
+        ]);
     }
 }

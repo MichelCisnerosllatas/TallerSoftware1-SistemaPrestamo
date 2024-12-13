@@ -352,25 +352,31 @@
 }
 
 
-/*estilo del div cuando no hay registros */
+
+/* Estilo del div cuando no hay registros */
 .no-registrosPago {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: calc(100vh - 3rem);
-    text-align: center; /* Para centrar el texto */
+    align-content: center;
+    height: calc(82vh - 3rem); /* Asegura que el div ocupe el 100% de la altura disponible */
+    text-align: center;
+    /*overflow: hidden; !* Evita que aparezca el scroll *!*/
 }
 
 .no-registrosPago img {
-    max-width: 100px; /* Ajusta el tamaño de la imagen según sea necesario */
-    margin-bottom: 10px; /* Espacio entre la imagen y el texto */
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
 }
 
-.no-registrosPago p {
-    font-size: 1.2em; /* Ajusta el tamaño del texto según sea necesario */
+.no-registrosPago h2 {
+    font-size: 1.2em; /* Ajusta el tamaño del texto */
     font-weight: bold;
 }
+
+
 
 /* Responsive: Mostrar botón de acciones como menú desplegable en pantallas pequeñas */
 @media (max-width: 768px) {

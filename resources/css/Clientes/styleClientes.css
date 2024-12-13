@@ -77,11 +77,23 @@
 /* Inputs */
 .modal-body-nuevociente input, .modal-body-nuevociente select {
     width: 100%;
-    padding: 10px;
+    /*padding: 10px;*/
     margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    /*border: 1px solid #ccc;*/
+    /*border-radius: 4px;*/
     box-shadow: none; /* Elimina la sombra de los inputs */
+
+
+
+    /*width: 60%; !* Ajuste más eficiente de los inputs *!*/
+    padding: 12px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-size: 14px;
+    /*color: #333;*/
+    background-color: #fff;
+    box-sizing: border-box; /* Para que el padding no afecte el ancho */
+    transition: border-color 0.3s ease;
 }
 
 .modal-body-nuevociente .input-error{
@@ -90,9 +102,13 @@
 
 /* Eliminar efectos de desenfoque en los inputs */
 .modal-body-nuevociente input:focus, .modal-body-nuevociente select:focus {
-    outline: none;  /* Elimina el contorno de los inputs */
-    box-shadow: none;  /* Elimina la sombra cuando el input está en foco */
-    border-color: #ccc;  /* Mantiene el borde normal */
+    /*outline: none;  !* Elimina el contorno de los inputs *!*/
+    /*box-shadow: none;  !* Elimina la sombra cuando el input está en foco *!*/
+    /*border-color: #ccc;  !* Mantiene el borde normal *!*/
+
+    border-color: #007bff; /* Cambio de color al enfocar */
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
 /* Estilos para el formulario en dos columnas */

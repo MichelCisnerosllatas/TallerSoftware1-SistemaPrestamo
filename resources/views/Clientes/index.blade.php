@@ -34,8 +34,25 @@
                         <input type="text" id="celular" wire:model="celular" class="@error('celular') input-error @enderror" required>
                         @error('celular') <span class="error-message">{{ $message }}</span> @enderror
 
-                        <label for="direccionCliente">Dirección:</label>
-                        <input type="text" id="direccionCliente" wire:model="direccionCliente">
+                        <div class="input-group">
+                            <div class="input-item">
+                                <label for="tipodoc">Seleccione Distrito:</label>
+                                <select class="select" id="selectIdDistrito" required>
+                                    <option value="1441">Belen</option>
+                                    <option value="1444" >Iquitos</option>
+                                    <option value="1448">Punchana</option>
+                                    <option value="1450">San juan bautista</option>
+                                </select>
+                            </div>
+                            <div class="input-item">
+                                <label for="direccionCliente">Dirección:</label>
+                                <input type="text" id="direccionCliente" wire:model="direccionCliente">
+                            </div>
+                        </div>
+
+
+{{--                        <label for="direccionCliente">Dirección:</label>--}}
+{{--                        <input type="text" id="direccionCliente" wire:model="direccionCliente">--}}
 
                         <label for="referenciaCliente">Referencia:</label>
                         <input type="text" id="referenciaCliente" wire:model="referenciaCliente">

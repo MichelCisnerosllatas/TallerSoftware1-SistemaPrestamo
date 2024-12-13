@@ -15,9 +15,25 @@ class SeleccionarCliente extends Component {
     public function listartodoslosclientesprestamos(): void {
         try {
             $ClienteModel = new Cliente();
-            $response = $ClienteModel -> ListarClientes([
-                "idUsuario" => session('usuariologin')['IdUsuario'],
-            ]);
+//            $response = $ClienteModel->ListarClientes([
+//                'idUsuario' => session('usuariologin')['IdUsuario'],
+////                "idEmpresa" => session('usuariologin')['IdEmpresa'],
+//            ]);
+            $response = array();
+            if(session("usuariologin")["IdRol"] === "2" || session("usuariologin")["IdRol"] === "3" || session("usuariologin")["IdRol"] === "4"){
+                $response = $ClienteModel->ListarClientes([
+                    'idUsuario' => session('usuariologin')['IdUsuario'],
+                    "idEmpresa" => session('usuariologin')['IdEmpresa'],
+                ]);
+            }
+            else{
+                $response = $ClienteModel->ListarClientes([
+                    'idUsuario' => session('usuariologin')['IdUsuario'],
+//                    "idEmpresa" => session('usuariologin')['IdEmpresa'],
+                ]);
+            }
+
+
 
             // Verificar si la respuesta es válida y tiene éxito
             if (!$response['result']['success']) {

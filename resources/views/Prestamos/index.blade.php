@@ -11,13 +11,15 @@
                 <button id="botonCancelarventanaNuevoPrestamo2" type="button" class="buttonPrincipal1" style="min-height: 30px;">
                     <svg style="pointer-events: none;" xmlns="http://www.w3.org/2000/svg" height="15" width="12.5" viewBox="0 0 320 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z"/></svg>
                 </button>
-                <h2 id="ventanaTitle" class="ventana-title" style="padding: 0 10px;">Nuevo Prestamo</h2>
+                <h2 id="ventanaTitlePrestamoMant" class="ventana-title" style="padding: 0 10px;">Nuevo Prestamo</h2>
             </div>
-            {{--                <button id="botonCancelarventanaNuevoPrestamo2" type="button" class="buttonPrincipal1" style="min-height: 30px;">X</button>--}}
+
+
+            <button id="btnagregarpagoprestamodetalleMant" type="button" class="buttonPrincipal2" style="min-height: 30px;">Nuevo Pago</button>
         </div>
 
         <div class="ventana-form-container">
-            <div class="container">
+            <div id="cardprestamomant" class="container">
                 <form>
                     <div class="divprestamoaleatorios">
                         <div class="divlabelsValoresPrestamos">
@@ -25,8 +27,8 @@
                         </div>
                         <div class="divlabelsPrestamos" style="display: flex">
                             <input type="hidden" id="inputIDPrestamo" disabled style="width: 40px;">
-                            <input type="hidden" id="inputPrestamoSeleccionarClienteIDCliente" disabled style="width: 40px;">
-                            <input type="text" id="inputPrestamoSeleccionarCliente" placeholder="Seleccione un Cliente" disabled>
+                            <input type="hidden" id="inputPrestamoSeleccionarClienteIDCliente" disabled required style="width: 40px;">
+                            <input type="text" id="inputPrestamoSeleccionarCliente" placeholder="Seleccione un Cliente" disabled required>
                             <button id="btnPrestamoSeleccionarCliente" class="buttonPrincipal1" style="min-height: 40px; min-width: 40px; margin-left: 10px;">
                                 <svg style="pointer-events: none;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#ffffff" d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"/></svg>
                             </button>
@@ -59,13 +61,13 @@
                             <select name="selectIdTipoCobroprestamo" id="selectIdTipoCobroprestamo" wire:model="$idtipocobro" required>
                                 <option value="1" selected>Diario</option>
                                 <option value="2" >Semanal</option>
-                                <option value="3" >Quincenal</option>
-                                <option value="4" >Mensual</option>
+{{--                                <option value="3" >Quincenal</option>--}}
+{{--                                <option value="4" >Mensual</option>--}}
                             </select>
                         </div>
                     </div>
 
-                    <div class="divprestamoaleatorios">
+                    <div class="divprestamoaleatorios" style="display: none">
                         <div class="divlabelsValoresPrestamos">
                             <label for="country">Base:</label>
                         </div>
@@ -86,16 +88,14 @@
                             </select>
                         </div>
                     </div>
-
-
-
                     <div class="divprestamoaleatorios">
                         <div class="divlabelsValoresPrestamos">
                             <label>Prestamo:</label>
                         </div>
-                        <div class="divlabelsPrestamos" style="display: flex; align-items: center;">
-                            <h1>S/.</h1>
-                            <input type="text" id="inputMontoPrestamo" placeholder="0.00" style="font-size: 18px; font-weight: bold; margin-left: 20px;">
+
+                        <div class="divlabelsPrestamos">
+                            <input type="text" pattern="^\d+(\.\d{1,2})?$" id="inputMontoPrestamo" placeholder="0.00" style="font-size: 18px; font-weight: bold;">
+                            <label id="labelerrorprestamoinputMontoPrestamo" style="color: var(--color-rojo)">Parametro Erroneo</label>
                         </div>
                     </div>
                     <div class="divprestamoaleatorios" style="display: flex; justify-content: space-evenly; height: 30px; margin-top: 10px;">
@@ -116,7 +116,7 @@
                 </form>
             </div>
 
-            <div class="container">
+            <div id="cardprestamoresultadomant" class="container">
                 <h3>Resultado del Prestamo</h3>
 
                 <div style="display: flex; justify-content: space-between;">
@@ -126,7 +126,10 @@
                 <hr>
                 <div style="display: flex; justify-content: space-between;">
                     <label>Monto Cuota:</label>
-                    <label id="labelValorMontoCuotaPrestamo" style="font-weight: bold">S/. 0.00</label>
+                    <div style="display: flex;">
+                        <label style="font-weight: bold">S/. </label>
+                        <label id="labelValorMontoCuotaPrestamo" style="font-weight: bold">0.00</label>
+                    </div>
                 </div>
 
                 <hr>
@@ -138,13 +141,17 @@
                 <hr>
                 <div style="display: flex; justify-content: space-between;">
                     <label>Monto Interes:</label>
-                    <label id="labelValorMontoInteresPrestamo" style="font-weight: bold">S/. 0.00</label>
+                    <div style="display: flex;">
+                        <label style="font-weight: bold">S/. </label>
+                        <label id="labelValorMontoInteresPrestamo" style="font-weight: bold">0.00</label>
+                    </div>
                 </div>
 
                 <hr>
                 <div style="display: flex; justify-content: space-between;">
                     <label>Fecha Vencimiento: </label>
-                    <label id="labelValorFechaVencimientoPrestamo" style="font-weight: bold">No Definido</label>
+                    <label id="labelValorFechaVencimientoPrestamo" style="display: none; font-weight: bold;">No Definido</label>
+                    <label id="labelValorFechaVencimientoPrestamoVISTA" style="font-weight: bold;">No Definido</label>
                 </div>
 
                 <hr>
@@ -153,10 +160,19 @@
                     <label id="labelValorMontoTotalRecibirPrestamo" style="font-weight: bold">S/. 0.00</label>
                 </div>
             </div>
+
+            <div id="cardprestamodetalle1" class="container">
+                @include('Prestamos.detalleprestamo')
+            </div>
+
+            <div id="cardprestamodetalle2" class="container" style="padding: 0;">
+                @include('circuleprogressindicator')
+                @livewire('pagos.tablapagosprestamo')
+            </div>
         </div>
 
         <!-- Footer con botones de acción -->
-        <div class="ventanaPrestamoFooter">
+        <div id="ventanaPrestamoFooter" class="ventanaPrestamoFooter">
             <button id="botonCancelarventanaNuevoPrestamo1" class="buttonPrincipal2 ventana-button" style="min-height: 30px; background: var(--color-rojo);">Cancelar</button>
             <button id="botonRegistrarPrestamo" type="submit" class="buttonPrincipal2 ventana-button" style="min-height: 30px">Registrar</button>
         </div>
@@ -176,5 +192,20 @@
             </div>
         </div>
     </div>
+
+    @include("Prestamos.nuevopagoprestamo")
 </div>
+
+
+<!-- Menú contextual del Clik derecho en la tabla Prestamo-->
+<div id="idmenuopcionesprestamo" class="menuopcionesprestamo">
+    <label id="idlabeldetalleprestamo" data-index="{{ $index ?? 0 }}">Detalle</label>
+    <label id="idlabeleditarprestamo" data-index="{{ $index ?? 0 }}">Editar</label>
+    <label id="idlabeleliminarprestamo" data-index="{{ $index ?? 0 }}">Eliminar</label>
+    <label style="display: none;" id="idlabelactivarprestamo" data-index="{{ $index ?? 0 }}">Activar</label>
+    <label style="display: none;" id="idlabeldesactivarprestamo" data-index="{{ $index ?? 0 }}">Desactivar</label>
+    <label id="idlabelAgregarPagoprestamo" data-index="{{ $index ?? 0 }}">Agregar un pago</label>
+</div>
+
+
 {{--@include('Prestamos.nuevoPrestamo')--}}

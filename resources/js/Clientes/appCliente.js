@@ -68,6 +68,16 @@ document.addEventListener('DOMContentLoaded', function () {
         if (event.target && (event.target.id === 'botonRegistrarCliente' || event.target.id === 'botonGuardarCambiosCliente')) {
             event.preventDefault();
             if(validardatosParametrosClientes()){
+                // Mostrar el modal de carga mientras se procesa
+                Swal.fire({
+                    title: 'Procesando...',
+                    text: 'Estamos registrando el préstamo, por favor espera.',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();a
+                    }
+                });
+
                 const fecha = new Date();
                 const fechaLocal = fecha.getFullYear() + "-" +
                     ("0" + (fecha.getMonth() + 1)).slice(-2) + "-" +
@@ -84,6 +94,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     apellido: document.getElementById('apellido').value,
                     correo: document.getElementById('correo').value,
                     celular: document.getElementById('celular').value,
+                    iddistrito: document.getElementById('selectIdDistrito').value,
                     direccion: document.getElementById('direccionCliente').value,
                     referencia: document.getElementById('referenciaCliente').value,
                     tipodoc: document.getElementById('tipodoc').value,
@@ -99,6 +110,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
                     // Escuchar cuando el proceso ha terminado
                     Livewire.on('clienteInsertadoExitosamente', () => {
+                        Swal.close();
                         cerrarModalNuevoCliente();
                     });
                 } else {
@@ -123,10 +135,19 @@ document.addEventListener('DOMContentLoaded', function () {
             }).then((result) => {
                 if (result.isConfirmed) {
                     if (window.Livewire) {
+                        Swal.fire({
+                            title: 'Procesando...',
+                            text: 'Estamos reciclando el cliente, por favor espera.',
+                            allowOutsideClick: false,
+                            didOpen: () => {
+                                Swal.showLoading();  // Muestra el spinner de carga
+                            }
+                        });
                         Livewire.dispatch('reciclarClienteJS', [clienteData]);
 
                         // Escuchar cuando el proceso ha terminado
                         Livewire.on('clienteRecicladoExitosamente', () => {
+                            Swal.close();
                             Swal.fire({
                                 title: "Reciclado!",
                                 text: "El Cliente ha sido Reciclado.",

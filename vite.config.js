@@ -15,6 +15,7 @@ export default defineConfig({
                 'resources/css/Permisos/stylePermisos.css',
                 'resources/css/Prestamos/stylePrestamos.css',
                 'resources/css/Pagos/stylePagos.css',
+                'resources/css/Pagos/stylePagosPrestamo.css',
                 'resources/css/Principal/stylePrincipal.css',
                 'resources/css/Reporte/styleReporte.css',
                 'resources/css/Rol/styleRol.css',

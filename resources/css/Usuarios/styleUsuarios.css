@@ -159,7 +159,6 @@ input[type="text"] {
     font-size: 14px;
 }
 
-//------------------------------------------------- Agregado*!*/
 #searchInput {
     width: 100%;
     padding: 10px;
@@ -245,12 +244,12 @@ input[type="text"] {
     cursor: pointer;
 }
 
-.divtablausuario .btneditar {
+.divtablausuario .btneditarUsuarioSec {
     background-color: var(--color-verde-oscuro);
     color: white;
 }
 
-.divtablausuario .btneliminar {
+.divtablausuario .btneliminarUsuarioSec {
     background-color: var(--color-rojo);
     color: white;
 }
@@ -324,14 +323,14 @@ input[type="text"] {
 }
 
 /* Clase para los campos con error */
-.input-error {
+.input-errorUsuarioSec {
     border: 2px solid red; /* Borde rojo */
     background-color: #ffe6e6; /* Fondo claro */
     outline: none; /* Quita el borde de enfoque */
 }
 
 /* Mensaje de error */
-.error-message {
+.error-messageUsuarioSec {
     color: red;
     font-size: 12px;
     margin-top: 5px;
@@ -350,3 +349,218 @@ input[type="text"] {
 /*    color: var(--color-negro);*/
 /*    height: 100vh;*/
 /*}*/
+
+/* Modal Overlay */
+.modalNuevoUsuarioSecSombra {
+    position: fixed;  /* El modal se fija en la pantalla */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro */
+    display: none; /* Usamos Flexbox para el centrado */
+    justify-content: center; /* Centrado horizontal */
+    align-items: center; /* Centrado vertical */
+    z-index: 1000;
+}
+
+.containerUsuarioSec{
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+/*!* ventana Content *!*/
+.ventana-content-NuevoUsuarioSec {
+    position: relative;
+    display: none;
+    background-color: var(--color-blanco-humo);
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    flex-direction: column;
+    overflow: hidden;
+    height: calc(100vh - 3rem); /* Ajuste para que la tabla ocupe el espacio disponible sin desbordar */
+}
+
+/* ventana Header */
+.ventana-content-NuevoUsuarioSec .ventanaUsuarioSecHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-blanco-humo);
+    padding: 10px;
+}
+
+.ventana-content-NuevoUsuarioSec .ventanaUsuarioSecHeader .ventana-titleUsuarioSec {
+    margin: 0;
+    font-size: 1.5em;
+}
+
+.ventana-content-NuevoUsuarioSec .ventana-form-containerUsuarioSec{
+    display: flex; /* Flexbox para organizar las columnas */
+    flex-wrap: wrap; /* Para que los formularios se ajusten bien */
+    gap: 20px; /* Espacio entre las columnas */
+}
+
+.ventana-content-NuevoUsuarioSec .ventana-form-containerUsuarioSec .container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    flex: 1 1 45%;
+    overflow-y: auto;
+    height: calc(82vh - 3rem);
+}
+
+
+
+.ventana-content-NuevoUsuarioSec input[type=text], .ventana-content-NuevoUsuarioSec select, .ventana-content-NuevoUsuarioSec textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.ventana-content-NuevoUsuarioSec .ventana-form-containerUsuarioSec .container label {
+    padding: 12px 12px 12px 0;
+    display: inline-block;
+}
+
+.ventana-content-NuevoUsuarioSec .ventana-form-containerUsuarioSec .container input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+.ventana-content-NuevoUsuarioSec .ventana-form-containerUsuarioSec .container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+
+.ventana-form-containerUsuarioSec .divlabelsValoresNuevoUsuarioSec {
+    float: left;
+    width: 25%;
+    margin-top: 6px;
+}
+
+.divlabelsUsuariosSec {
+    float: left;
+    width: 75%;
+    margin-top: 6px;
+}
+
+/* Clear floats after the columns */
+.divusuarioSecaleatorios:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+
+/*!* ventana Footer *!*/
+.ventana-content-NuevoUsuarioSec .ventanaUsuarioSecFooter {
+    background-color: #f9f9f9;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 10px;
+    position: absolute; /* El footer debe estar pegado abajo */
+    bottom: 0;
+    width: 100%;
+}
+
+
+
+.div_text_tituloUsuarioSec {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between; /* Separa los elementos */
+    align-items: center; /* Alinea verticalmente */
+    height: 35px; /* Altura consistente del contenedor */
+    margin-bottom: 10px;
+}
+.div_text_tituloUsuarioSec div:first-child {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-right: 30px;
+    height: 100%; /* Hace que el primer div ocupe toda la altura */
+    gap: 5px; /* Espaciado entre el botón y el input */
+}
+
+
+/* Ajuste para el segundo div (Fila y botones de navegación) */
+.div_text_tituloUsuarioSec div:last-child {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 5px; /* Espacio entre los elementos */
+}
+
+/* Input de búsqueda */
+.txtbuscarusuariosec {
+    flex-gdivprestamoaleatorios: 1; /* Ocupa el espacio restante */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+
+
+
+/*!* Responsivo para pantallas pequeñas *!*/
+@media screen and (max-width: 950px) {
+    /* Cambiar a una sola columna en dispositivos pequeños */
+    .ventana-content-NuevoUsuarioSec{
+        height: auto;
+    }
+    .ventana-content-NuevoUsuarioSec .ventanaUsuarioSecFooter{
+        position: relative;
+    }
+
+    /* Ajustar el contenedor del formulario */
+    .ventana-body-nuevoUsuarioSec {
+        display: flex;
+        flex-direction: column; /* Columna para dispositivos móviles */
+        gap: 15px;
+    }
+
+    /* Asegura que los inputs, selects, y botones se ajusten al 100% */
+    .ventana-body-nuevoUsuarioSec input, .ventana-body-nuevoUsuarioSec select {
+        width: 100%; /* Ocupa el 100% del contenedor */
+        box-sizing: border-box; /* Evita que el padding y el borde se sumen al ancho */
+        margin-bottom: 10px; /* Espacio inferior */
+    }
+
+    /* Agregar desplazamiento horizontal a los botones de monto si no caben */
+    .ventana-body-nuevoUsuarioSec .ventana-body-nuevoUsuarioSec > div {
+        display: flex;
+        /*overflow-x: auto; !* Desplazamiento horizontal para los botones *!*/
+        gap: 5px;
+        padding-bottom: 10px;
+    }
+
+    /* Asegura que los botones se mantengan alineados en una fila */
+    .ventana-body-nuevoUsuarioSec .ventana-body-nuevoUsuarioSec .buttonPrincipal2 {
+        min-width: 80px;
+        padding: 8px 15px;
+    }
+
+    .ventana-content-NuevoUsuarioSec .ventana-form-containerUsuarioSec {
+        flex-direction: column; /* En pantallas pequeñas, los formularios se apilan */
+
+    }
+    .ventana-content-NuevoUsuarioSec .ventana-form-containerUsuarioSec .container {
+        width: 100%;
+    }
+
+    .divlabelsValoresUsuarioSec, .divlabelsUsuarioSec, input[type=submit] {
+        width: 100%;
+        margin-top: 0;
+    }
+}
+

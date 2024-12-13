@@ -15,7 +15,12 @@ class Prestamo extends Model
     public function ListarPrestamosInicio($datosPrestmo) {
         $datos = [
             "Accion" => "7",
-            "IdUsuario" => isset($datosPrestmo['idUsuario']) ? (!empty($datosPrestmo['idUsuario']) ? $datosPrestmo['idUsuario'] : null) : null
+            "IdUsuario" => isset($datosPrestmo['idUsuario']) ? (!empty($datosPrestmo['idUsuario']) ? $datosPrestmo['idUsuario'] : null) : null,
+            "IdEmpresa" => isset($datosPrestmo['idempresa']) ? (!empty($datosPrestmo['idempresa']) ? $datosPrestmo['idempresa'] : null) : null,
+
+            "Pagina" => isset($datosPrestmo['pagina']) ? (!empty($datosPrestmo['pagina']) ? $datosPrestmo['pagina'] : null) : null,
+            "Fila" => isset($datosPrestmo['fila']) ? (!empty($datosPrestmo['fila']) ? $datosPrestmo['fila'] : null) : null,
+            "Estado" => isset($datosPrestmo['estado']) ? (!empty($datosPrestmo['estado']) ? $datosPrestmo['estado'] : null) : null
         ];
 
         try{
@@ -56,10 +61,107 @@ class Prestamo extends Model
             "MontoDevolucion" => !isset($datosPrestmo['montodevolucion']) ? null : (!empty($datosPrestmo['montodevolucion']) ? $datosPrestmo['montodevolucion'] : 0.00),
             "FechaRegistro" => !isset($datosPrestmo['fecharegistro']) ? null : (!empty($datosPrestmo['fecharegistro']) ? $datosPrestmo['fecharegistro'] : null),
             "IdTipoPago" => !isset($datosPrestmo['idtipopago']) ? null : (!empty($datosPrestmo['idtipopago']) ? $datosPrestmo['idtipopago'] : null),
+            "FechaPago" => !isset($datosPrestmo['fechapago']) ? null : (!empty($datosPrestmo['fechapago']) ? $datosPrestmo['fechapago'] : null),
             "Cuotas" => !isset($datosPrestmo['cuotas']) ? null : (!empty($datosPrestmo['cuotas']) ? $datosPrestmo['cuotas'] : null),
             "MontoCuota" => !isset($datosPrestmo['montocuota']) ? null : (!empty($datosPrestmo['montocuota']) ? $datosPrestmo['montocuota'] : 0.00),
             "FechaVencimiento" => !isset($datosPrestmo['fechavencimiento']) ? null : (!empty($datosPrestmo['fechavencimiento']) ? $datosPrestmo['fechavencimiento'] : 0.00),
             "ObservacionPrestamo" => !isset($datosPrestmo['observacionprestamo']) ? null : (!empty($datosPrestmo['observacionprestamo']) ? $datosPrestmo['observacionprestamo'] : "")
+        ];
+
+        try {
+            $response = Http::asForm()->post($this->UrlApi,$datos);
+            if(!$response -> successful()){
+                throw new \Exception('Error en el servidor');
+            }
+
+            if ($response->failed()) {
+                throw new \Exception("Respuesta fallida del backend 'InsertarPrestamo': " . $response->body());
+            }
+
+            $body = $response->json();
+            if (!$body['result']['success']) {
+                throw new \Exception('Error en el Metodo Fronted "InsertarPrestamo"');
+            }
+
+            return $body;
+        }
+        catch (\Exception $ex){
+            return response()->json([
+                'success' => false,
+                'message' => 'Ocurrió un error inesperado Metodo Fronted "InsertarPrestamo". Detalles: ' . $ex->getMessage()
+            ]);
+        }
+    }
+
+    public function ReciclarPrestamo($datosPrestmo) {
+        $datos = [
+            "Accion" => "5",
+            "IdPrestamo" => $datosPrestmo["idprestamo"],
+            "Estado" => "Reciclado"
+        ];
+
+        try {
+            $response = Http::asForm()->post($this->UrlApi,$datos);
+            if(!$response -> successful()){
+                throw new \Exception('Error en el servidor');
+            }
+
+            if ($response->failed()) {
+                throw new \Exception("Respuesta fallida del backend 'InsertarPrestamo': " . $response->body());
+            }
+
+            $body = $response->json();
+            if (!$body['result']['success']) {
+                throw new \Exception('Error en el Metodo Fronted "InsertarPrestamo"');
+            }
+
+            return $body;
+        }
+        catch (\Exception $ex){
+            return response()->json([
+                'success' => false,
+                'message' => 'Ocurrió un error inesperado Metodo Fronted "InsertarPrestamo". Detalles: ' . $ex->getMessage()
+            ]);
+        }
+    }
+
+    public function BuscarPrestamo($datosPrestmo) {
+        $datos = [
+            "Accion" => "4",
+            "IdUsuario" => $datosPrestmo["idusuario"],
+            "Buscar" => $datosPrestmo["buscar"]
+        ];
+
+        try {
+            $response = Http::asForm()->post($this->UrlApi,$datos);
+            if(!$response -> successful()){
+                throw new \Exception('Error en el servidor');
+            }
+
+            if ($response->failed()) {
+                throw new \Exception("Respuesta fallida del backend 'InsertarPrestamo': " . $response->body());
+            }
+
+            $body = $response->json();
+            if (!$body['result']['success']) {
+                throw new \Exception('Error en el Metodo Fronted "InsertarPrestamo"');
+            }
+
+            return $body;
+        }
+        catch (\Exception $ex){
+            return response()->json([
+                'success' => false,
+                'message' => 'Ocurrió un error inesperado Metodo Fronted "InsertarPrestamo". Detalles: ' . $ex->getMessage()
+            ]);
+        }
+    }
+
+    public function EliminarPrestamo($datosPrestmo) {
+        $datos = [
+            "Accion" => "5",
+            "IdPrestamo" => $datosPrestmo["idprestamo"],
+            "Estado" => "Eliminado"
         ];
 
         try {

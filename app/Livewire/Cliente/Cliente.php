@@ -20,6 +20,8 @@
         public int $tipodoc = 2;
         public string $numdoc;
         public int $idPersona;
+
+        public int $idDistrito;
         public int $idCliente;
         public $fechaRegistro;
 
@@ -49,6 +51,7 @@
             $this->apellido = $datosCliente['apellido'];
             $this->correo = $datosCliente['correo'];
             $this->celular = $datosCliente['celular'];
+            $this->idDistrito = $datosCliente['iddistrito'];
             $this->direccionCliente = $datosCliente['direccion'];
             $this->referenciaCliente = $datosCliente['referencia'];
             $this->tipodoc = $datosCliente['tipodoc'];
@@ -82,12 +85,23 @@
         public function listarClientes(): void {
             try {
                 $clienteModel = new ClienteModel();
-                $response = $clienteModel->ListarClientes([
-                    'idUsuario' => session('usuariologin')['IdUsuario'],
-                    'estado' => 'Activo',
-                    'fila' => $this->filaCliente,
-                    'pagina' => $this->paginaCliente
-                ]);
+                $response = array();
+                if(session("usuariologin")["IdRol"] === "2" || session("usuariologin")["IdRol"] === "3" || session("usuariologin")["IdRol"] === "4"){
+                    $response = $clienteModel->ListarClientes([
+                        'idUsuario' => session('usuariologin')['IdUsuario'],
+                        "idEmpresa" => session('usuariologin')['IdEmpresa'],
+                        'fila' => $this->filaCliente,
+                        'pagina' => $this->paginaCliente
+                    ]);
+                }
+                else if(session("usuariologin")["IdRol"] === "1"){
+                    $response = $clienteModel->ListarClientes([
+                        'idUsuario' => session('usuariologin')['IdUsuario'],
+                        'fila' => $this->filaCliente,
+                        'pagina' => $this->paginaCliente
+                    ]);
+                }
+
 
                 // Verificar si la respuesta es válida y tiene éxito
                 if (!$response['result']['success']) {
@@ -216,7 +230,7 @@
                         "idPersona" => $this->idPersona,
                         "idPais" => "42",
                         "idDepartamento" => "15",
-                        "idDistrito" => "976",
+                        "idDistrito" => $this->idDistrito,
                         "idProvincia" => "141",
                         "direccion" => $this->direccionCliente,
                         "referencia" => $this->referenciaCliente,

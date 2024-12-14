@@ -39,6 +39,8 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('cardprestamodetalle1').style.display = "none";
             document.getElementById('cardprestamodetalle2').style.display = "none";
             document.getElementById('ventanaTitlePrestamoMant').innerHTML = "Nuevo Prestamo";
+            document.getElementById("inputPrestamoSeleccionarCliente").style.backgroundColor = "white";
+            document.getElementById("inputMontoPrestamo").style.backgroundColor = "white";
 
         }
 
@@ -90,8 +92,12 @@ document.addEventListener('DOMContentLoaded', function () {
             CalcularPrestamo();
         }
 
-        if(event.target && event.target.id === 'botonRegistrarPrestamo'){
-            enviarvaloresPrestamosComponeteInsertar();
+        if (event.target && event.target.id === 'botonRegistrarPrestamo') {
+            const inputMontoPrestamo = document.getElementById("inputMontoPrestamo");
+            const fakeEvent = { target: inputMontoPrestamo };
+            if (validarInputPrestamo(fakeEvent)) {
+                enviarvaloresPrestamosComponeteInsertar();
+            }
         }
 
         if (event.target && event.target.id === 'btnOpcionesPrestamo') {
@@ -304,20 +310,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.querySelector('.div_contenedor').addEventListener('input', function (event) {
         if (event.target && event.target.id === 'inputMontoPrestamo') {
-            // Expresión regular para validar números enteros o decimales con 1 punto máximo
+            const inputValue = event.target.value;
+
+            // Expresión regular para números decimales o enteros con hasta 2 decimales
             const regex = /^\d+(\.\d{0,2})?$/;
-
-            // Si el valor no coincide con la expresión regular, lo limpiamos
-            if (!regex.test(event.target.value)) {
-                event.target.value = event.target.value.slice(0, -1);
-            }
-
-            // Validar si el valor es válido y realizar cálculos
-            if (validarprestamonulos(document.getElementById("inputMontoPrestamo").value)) {
+            if (!regex.test(inputValue)) {
+                event.target.value = inputValue.slice(0, -1);
+                CalcularPrestamo();
+            } else {
                 CalcularPrestamo();
             }
         }
-
 
         if (event.target && event.target.id === 'idMontoPagoModalPrestamodetalle') {
             const montopagoActual = parseFloat(document.getElementById("idMontoPagoModalPrestamodetalle").value.replace(/[^0-9.-]+/g, "")) || 0;
@@ -375,6 +378,27 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    function validarInputPrestamo(event){
+        let validar = false;
+
+        const inputValue = event.target.value;
+        // Expresión regular para números decimales o enteros con hasta 2 decimales
+        const regex = /^\d+(\.\d{0,2})?$/;
+
+        if (!regex.test(inputValue)) {
+            document.getElementById("inputMontoPrestamo").style.backgroundColor = "#ffc0af";
+            document.getElementById("labelerrorprestamoinputMontoPrestamo").style.display = "block";
+            event.target.value = inputValue.slice(0, -1);
+        } else if (document.getElementById("inputPrestamoSeleccionarCliente").value === '') {
+            document.getElementById("inputPrestamoSeleccionarCliente").style.backgroundColor = "#ffc0af";
+        } else {
+            document.getElementById("labelerrorprestamoinputMontoPrestamo").style.display = "none";
+            document.getElementById("inputMontoPrestamo").style.backgroundColor = "#ffffff";
+            document.getElementById("inputPrestamoSeleccionarCliente").style.backgroundColor = "#ffffff";
+            validar = true;
+        }
+        return validar;
+    }
     function calcularpago(){
         let cuota =  parseInt(document.getElementById("idinputNumCuotasPersonalizadasPrestamoDetalle").value)
         const montoCuota = parseFloat(DatosPrestmosObtenidos["montocuota"]);
@@ -382,6 +406,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById("idinputNumCuotasPersonalizadasPrestamoDetalle").value = cuota;
         document.getElementById("idMontoPagoModalPrestamodetalle").value = montoPagoActual.toFixed(2);
     }
+
     function buscarprestamoInicio(){
         if (window.Livewire) {
             Livewire.dispatch('buscarprestamoRecibeDesdeJS', [{
@@ -647,84 +672,82 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function enviarvaloresPrestamosComponeteInsertar(){
-        if(validarprestamonulos(document.getElementById("inputMontoPrestamo").value)){
-            Swal.fire({
-                title: '¿Estás seguro?',
-                text: '¿Antes de registrar verifica muy bien los datos del prestamo?',
-                icon: 'question',
-                showCancelButton: true,
-                confirmButtonText: 'Sí, Registrar',
-                cancelButtonText: 'No, Cancelar'
-            }).then((result) => {
-                if (result.isConfirmed) {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: '¿Antes de registrar verifica muy bien los datos del prestamo?',
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, Registrar',
+            cancelButtonText: 'No, Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
 
-                    // Mostrar el modal de carga mientras se procesa
-                    Swal.fire({
-                        title: 'Procesando...',
-                        text: 'Estamos registrando el préstamo, por favor espera.',
-                        allowOutsideClick: false,
-                        didOpen: () => {
-                            Swal.showLoading();  // Muestra el spinner de carga
-                        }
-                    });
-                    const fechaprestamo = new Date();
-                    const fechaLocal = fechaprestamo.getFullYear() + "-" +
-                        ("0" + (fechaprestamo.getMonth() + 1)).slice(-2) + "-" +
-                        ("0" + fechaprestamo.getDate()).slice(-2) + " " +
-                        ("0" + fechaprestamo.getHours()).slice(-2) + ":" +
-                        ("0" + fechaprestamo.getMinutes()).slice(-2) + ":" +
-                        ("0" + fechaprestamo.getSeconds()).slice(-2);
-
-                    // Aquí obtienes el IdCliente del objeto que se pasa en el modal
-                    const datosPrestamoParametros = {
-                        idprestamo: document.getElementById('inputIDPrestamo').value,
-                        idcliente: document.getElementById('inputPrestamoSeleccionarClienteIDCliente').value,
-                        tipomoneda: "1", //Soles
-                        tipoprestamo: "1", //Efectivo
-                        porcentajeinteres: document.getElementById('selectinteresprestamo').value,
-                        montointeres: document.getElementById("labelValorMontoInteresPrestamo").innerHTML,
-                        montoprestado: document.getElementById("inputMontoPrestamo").value,
-                        montocalculado: "0.00",
-                        montodevolucion: document.getElementById("labelValorMontoTotalRecibirPrestamo").innerHTML,
-                        fecharegistro: fechaLocal,
-                        idtipopago: document.getElementById('selectIdTipoCobroprestamo').value,
-                        fechapago: document.getElementById('labelValorFechacobroPrestamo').innerHTML,
-                        base: document.getElementById('selectIdTipoFormateadaprestamo').value,
-                        cuotas: document.getElementById("labelvalornumeroCuotaPrestamo").innerHTML,
-                        montocuota: document.getElementById("labelValorMontoCuotaPrestamo").innerHTML,
-                        fechavencimiento: document.getElementById("labelValorFechaVencimientoPrestamo").innerHTML,
-                        observacionprestamo: document.getElementById('txtinputObservacionPrestamo').value,
-                    };
-
-                    // Verifica si Livewire está disponible antes de emitir el evento
-                    if (window.Livewire) {
-                        Livewire.dispatch('mantenimientoPrestamoRecibeDesdeJS', [datosPrestamoParametros]);
-
-                        // Escuchar cuando el proceso ha terminado
-                        Livewire.on('prestamoInsertadoExitosamente', () => {
-                            Swal.close();
-                            Swal.fire({
-                                title: '¡Éxito!',
-                                text: 'El préstamo ha sido registrado correctamente.',
-                                icon: 'success'
-                            }).then((result) => {
-                                if (result.isConfirmed) {
-                                    cerrarVentanaMantenimientoPrestamo();
-                                }else if (result.isDismissed) {
-                                    cerrarVentanaMantenimientoPrestamo();
-                                }
-                            });
-
-                        });
-                    } else {
-                        console.error('Livewire no está disponible');
+                // Mostrar el modal de carga mientras se procesa
+                Swal.fire({
+                    title: 'Procesando...',
+                    text: 'Estamos registrando el préstamo, por favor espera.',
+                    allowOutsideClick: false,
+                    didOpen: () => {
+                        Swal.showLoading();  // Muestra el spinner de carga
                     }
+                });
+                const fechaprestamo = new Date();
+                const fechaLocal = fechaprestamo.getFullYear() + "-" +
+                    ("0" + (fechaprestamo.getMonth() + 1)).slice(-2) + "-" +
+                    ("0" + fechaprestamo.getDate()).slice(-2) + " " +
+                    ("0" + fechaprestamo.getHours()).slice(-2) + ":" +
+                    ("0" + fechaprestamo.getMinutes()).slice(-2) + ":" +
+                    ("0" + fechaprestamo.getSeconds()).slice(-2);
+
+                // Aquí obtienes el IdCliente del objeto que se pasa en el modal
+                const datosPrestamoParametros = {
+                    idprestamo: document.getElementById('inputIDPrestamo').value,
+                    idcliente: document.getElementById('inputPrestamoSeleccionarClienteIDCliente').value,
+                    tipomoneda: "1", //Soles
+                    tipoprestamo: "1", //Efectivo
+                    porcentajeinteres: document.getElementById('selectinteresprestamo').value,
+                    montointeres: document.getElementById("labelValorMontoInteresPrestamo").innerHTML,
+                    montoprestado: document.getElementById("inputMontoPrestamo").value,
+                    montocalculado: "0.00",
+                    montodevolucion: document.getElementById("labelValorMontoTotalRecibirPrestamo").innerHTML,
+                    fecharegistro: fechaLocal,
+                    idtipopago: document.getElementById('selectIdTipoCobroprestamo').value,
+                    fechapago: document.getElementById('labelValorFechacobroPrestamo').innerHTML,
+                    base: document.getElementById('selectIdTipoFormateadaprestamo').value,
+                    cuotas: document.getElementById("labelvalornumeroCuotaPrestamo").innerHTML,
+                    montocuota: document.getElementById("labelValorMontoCuotaPrestamo").innerHTML,
+                    fechavencimiento: document.getElementById("labelValorFechaVencimientoPrestamo").innerHTML,
+                    observacionprestamo: document.getElementById('txtinputObservacionPrestamo').value,
+                };
+
+                // Verifica si Livewire está disponible antes de emitir el evento
+                if (window.Livewire) {
+                    Livewire.dispatch('mantenimientoPrestamoRecibeDesdeJS', [datosPrestamoParametros]);
+
+                    // Escuchar cuando el proceso ha terminado
+                    Livewire.on('prestamoInsertadoExitosamente', () => {
+                        Swal.close();
+                        Swal.fire({
+                            title: '¡Éxito!',
+                            text: 'El préstamo ha sido registrado correctamente.',
+                            icon: 'success'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                cerrarVentanaMantenimientoPrestamo();
+                            }else if (result.isDismissed) {
+                                cerrarVentanaMantenimientoPrestamo();
+                            }
+                        });
+
+                    });
                 } else {
-                    // Acción si elige "No"
-                    console.log('Acción cancelada');
+                    console.error('Livewire no está disponible');
                 }
-            });
-        }
+            } else {
+                // Acción si elige "No"
+                console.log('Acción cancelada');
+            }
+        });
     }
 
     function limpiarParametrosPrestamosMantenimiento(){
@@ -756,7 +779,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function CalcularPrestamo(){
-        const inputMontoPrestamo = document.getElementById("inputMontoPrestamo").value;
+        const inputMontoPrestamo = parseFloat(document.getElementById("inputMontoPrestamo").value === '' ? 0 : document.getElementById("inputMontoPrestamo").value);
         const selectInteres = document.getElementById('selectinteresprestamo').value;
         let selectTipoCobro = document.getElementById('selectIdTipoCobroprestamo').value;
         let fechavencimiento = "";
@@ -892,7 +915,7 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     }
 
-    function validarprestamonulos(valor){
+    function validarprestamonulos2(valor){
         let validar = true;
         if(valor === ""){
             document.getElementById("labelerrorprestamoinputMontoPrestamo").innerHTML = "Parametro Requerido.";
@@ -918,7 +941,54 @@ document.addEventListener('DOMContentLoaded', function () {
         return validar;
     }
 
+    function validarprestamonulos(valor) {
+        let validar = true;
+
+        console.log("Valor recibido:", valor);
+
+        // Verificar si el valor está vacío
+        if (valor === "" || isNaN(valor)) {
+            document.getElementById("labelerrorprestamoinputMontoPrestamo").innerHTML = "Parametro Requerido.";
+            validar = false;
+            console.log("Fallo: El valor está vacío o no es un número.");
+        }
+        // Validar el formato con un método auxiliar
+        else if (!validarDoublePrestamo(valor)) {
+            document.getElementById("labelerrorprestamoinputMontoPrestamo").innerHTML = "Formato no Admitido.";
+            validar = false;
+            console.log("Fallo: El valor no cumple el formato de número.");
+        }
+        // Verificar si se seleccionó un cliente
+        else if (document.getElementById("inputPrestamoSeleccionarCliente").value === '') {
+            validar = false;
+            document.getElementById("inputPrestamoSeleccionarCliente").style.backgroundColor = "#ffc0af";
+            console.log("Fallo: Cliente no seleccionado.");
+        }
+
+        // Actualizar estilo y mostrar mensajes de error
+        if (validar) {
+            document.getElementById("labelerrorprestamoinputMontoPrestamo").style.display = "none";
+            document.getElementById("inputMontoPrestamo").style.backgroundColor = "#ffffff";
+            console.log("Validación exitosa.");
+        } else {
+            document.getElementById("inputMontoPrestamo").style.backgroundColor = "#ffc0af";
+            document.getElementById("labelerrorprestamoinputMontoPrestamo").style.display = "block";
+            console.log("Fallo: Validación no exitosa.");
+        }
+
+        return validar;
+    }
+
+
     function validarDoublePrestamo(valor) {
+        const regex = /^\d+(\.\d+)?$/;
+        const resultado = regex.test(valor);
+        console.log("Resultado de validarDoublePrestamo:", resultado, "para el valor:", valor);
+        return resultado;
+    }
+
+
+    function validarDoublePrestamo2(valor) {
         // Expresión regular mejorada para solo permitir números con decimales
         let regex = /^[+-]?(\d+(\.\d{1,2})?)$/;
 

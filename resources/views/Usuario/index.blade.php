@@ -46,7 +46,7 @@
                             <div class="input-item-usuario">
                                 <label for="celular">Celular:</label>
                                 <input
-                                    type="text"
+                                    type="number"
                                     id="celularUserSec">
                             </div>
                         </div>
@@ -92,8 +92,8 @@
                             <div class="input-item-usuario">
                                 <label for="cars">Rol:</label>
                                 <select class="select" name="cars" id="tipoRolUserSec">
-                                    <option value="3">Administrador</option>
                                     <option value="4">Empleado</option>
+                                    <option value="3">Administrador</option>
                                 </select>
                             </div>
                         </div>

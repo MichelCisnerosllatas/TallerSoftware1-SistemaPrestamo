@@ -1,0 +1,107 @@
+.divtablaclienteReciclado {
+    width: 100%;
+    overflow: auto;
+    border: 1px solid white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 8rem); /* Ajuste para que la tabla ocupe el espacio disponible sin desbordar */
+}
+
+/* Table Style */
+.divtablaclienteReciclado table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    /*height: 100px;*/
+}
+
+.divtablaclienteReciclado table thead{
+    background-color: var(--color-azul-marino); /* O el color que prefieras */
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+.divtablaclienteReciclado tbody{
+    background: white;
+    /*overflow-y: auto;*/
+    /*overflow-x: auto;*/
+}
+
+.divtablaclienteReciclado table th, .divtablaclienteReciclado table td {
+    padding: 5px;
+    text-align: left;
+}
+
+
+.divtablaclienteReciclado tbody tr {
+    border-bottom: 1px solid #ddd; /* Línea gris clara */
+}
+
+.divtablaclienteReciclado tbody tr img{
+    width: 35px;
+    height: 35px;
+}
+
+/*!* Adjusta columnas *!*/
+
+.divtablaclienteReciclado th:nth-child(1), .divtablaclienteReciclado td:nth-child(1) {
+    text-align: center;
+    width: 2.5%;
+    font-size: 12px;
+}
+
+
+.divtablaclienteReciclado th:nth-child(2), .divtablaclienteReciclado td:nth-child(2) {
+    text-align: center;
+    width: 5%;
+    font-size: 12px;
+}
+
+.divtablaclienteReciclado th:nth-child(3), .divtablaclienteReciclado td:nth-child(3) {
+    text-align: center;
+    width: 30%;
+    font-size: 12px;
+}
+
+.divtablaclienteReciclado th:nth-child(4), .divtablaclienteReciclado td:nth-child(4) {
+    text-align: center;
+    font-size: 12px;
+    width: 5%
+}
+
+/* Hover effects for rows */
+.divtablaclienteReciclado tbody tr:hover {
+    background-color: #f4f4f4;
+}
+
+/* Estilo del div cuando no hay registros */
+.noregistrosClienteReciclaje {
+    width: 100%;
+    /*background: #3fc3ee;*/
+    display: flex;
+    flex-direction: column; /* Asegura que los elementos estén en una columna (imagen arriba, texto abajo) */
+    justify-content: center; /* Centra verticalmente el contenido */
+    align-items: center; /* Centra horizontalmente el contenido */
+    height: calc(100vh - 6rem); /* Ocupa toda la altura disponible menos 7rem, por ejemplo, el tamaño de un header */
+    text-align: center; /* Centra el texto */
+    padding: 1rem; /* Añade un poco de espacio interno */
+    box-sizing: border-box; /* Asegura que el padding no afecte el tamaño total */
+}
+
+/* Estilo para la imagen */
+.noregistrosClienteReciclaje img {
+    max-width: 100px; /* Ajusta el tamaño de la imagen */
+    margin-bottom: 10px; /* Espacio entre la imagen y el texto */
+}
+
+/* Estilo para el texto */
+.noregistrosClienteReciclaje h2 {
+    font-size: 1.5em; /* Ajusta el tamaño del texto */
+    font-weight: bold;
+    color: #333; /* Ajusta el color del texto si es necesario */
+}
+

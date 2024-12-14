@@ -16,7 +16,7 @@
             $parametrosDireccion = [
                 "Accion" => "5",
                 "IdPersona" => $datosDireccion['idPersona'] ?? null,
-                "Celular" => $datosDireccion['celular'] ?? ""
+                "Direccion" => $datosDireccion['direccion'] ?? ""
             ];
 
             try {

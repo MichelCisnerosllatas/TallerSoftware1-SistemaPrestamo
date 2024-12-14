@@ -116,22 +116,7 @@ class GestionUsuario extends Component {
             }
             //hasta aqui
             if(isset($PersonaJson['result']['data'][0]['IdPersona']) || $PersonaJson["result"]["data"] != null || !empty($PersonaJson['result']['data'])){
-                //2 Verificamos si la direccion existe
-                $DireccionJson = $modeloDireccion->ExisteDireccion([
-                    'idPersona' => $this->idPersona,
-                    'direccion'   => $this->direccionUsuarioSec,
-                ]);
-                if($DireccionJson["result"]["data"] != null || !empty($DireccionJson['result']['data'])){
-                    $this->dispatch('SweetAlertPrincipal', [
-                        'icon' => 'warning', // O 'success', 'error', etc.
-                        'title' => 'La dirección ya Existe',
-                        'text' => 'los datos del celular, coinciden con un cliente registrado, por favor verifique',
-                        'showCancelButton' => false,
-                        'confirmButtonText' => 'Aceptar',
-                        'timer' => 10000,
-                    ]);
-                    return;
-                }
+
                 //3 VERIFICAMOS SI EL CELULAR YA EXISTE
                 $CelularJson = $modeloCelular ->ExisteCelular([
                     "idPersona" => $this->idPersona,
@@ -173,38 +158,6 @@ class GestionUsuario extends Component {
                     throw new \Exception('No se pudo obtener el IdPersona después de insertar la persona.');
                 }
             }
-
-//            $DireccionJson = $modeloDireccion->ExisteDireccion([
-//                'idPersona' => $this->idPersona,
-//                'direccion'   => $this->direccionUsuarioSec,
-//            ]);
-//            if($DireccionJson["result"]["data"] != null || !empty($DireccionJson['result']['data'])){
-//                $this->dispatch('SweetAlertPrincipal', [
-//                    'icon' => 'warning', // O 'success', 'error', etc.
-//                    'title' => 'La dirección ya Existe',
-//                    'text' => 'los datos del celular, coinciden con un cliente registrado, por favor verifique',
-//                    'showCancelButton' => false,
-//                    'confirmButtonText' => 'Aceptar',
-//                    'timer' => 10000,
-//                ]);
-//                return;
-//            }
-//            //3 VERIFICAMOS SI EL CELULAR YA EXISTE
-//            $CelularJson = $modeloCelular ->ExisteCelular([
-//                "idPersona" => $this->idPersona,
-//                "celular" => $this->celular,
-//            ]);
-//            if($CelularJson["result"]["data"] != null || !empty($CelularJson['result']['data'])){
-//                $this->dispatch('SweetAlertPrincipal', [
-//                    'icon' => 'warning', // O 'success', 'error', etc.
-//                    'title' => 'El Celular ya Existe',
-//                    'text' => 'los datos del celular, coinciden con un cliente registrado, por favor verifique',
-//                    'showCancelButton' => false,
-//                    'confirmButtonText' => 'Aceptar',
-//                    'timer' => 10000,
-//                ]);
-//                return;
-//            }
 
             // Si no existe, procedemos a insertarlo
             $CelularJson = $modeloCelular->InsertarCelular([
@@ -299,7 +252,15 @@ class GestionUsuario extends Component {
             // Llamar a SweetAlert
             //Alert::success('Registro Exitoso', 'El usuario ha sido registrado correctamente.');
         } catch (\Exception $e) {
-            session()->flash('error', $e->getMessage());
+            $this->dispatch('SweetAlertPrincipal', [
+                'icon' => 'error', // O 'success', 'error', etc.
+                'title' => 'Error crear usuario',
+                'text' => $e->getMessage(),
+                'showCancelButton' => false,
+                'confirmButtonText' => 'Aceptar',
+                'timer' => 10000,
+            ]);
+//            session()->flash('error', $e->getMessage());
         }
         //        $this->loading = false;
     }
@@ -350,6 +311,7 @@ class GestionUsuario extends Component {
     }
 
 //    protected $listeners = ['listarUsuarioSecJS' => 'listarUsuarios'];
+    #[On('listarUsuarioSecJS')]
     public function listarUsuarios(): void {
         $idUsuarioLogeado = session('usuariologin')['IdUsuario'];
         try {
@@ -376,7 +338,14 @@ class GestionUsuario extends Component {
                 $this->usuarios = [];
             }
         } catch (\Exception $e) {
-            session()->flash('error', 'Ocurrió un error al cargar los Usuarios: ' . $e->getMessage());
+            $this->dispatch('SweetAlertPrincipal', [
+                'icon' => 'error', // O 'success', 'error', etc.
+                'title' => 'Lista usuario',
+                'text' => $e->getMessage(),
+                'showCancelButton' => false,
+                'confirmButtonText' => 'Aceptar',
+            ]);
+//            session()->flash('error', 'Ocurrió un error al cargar los Usuarios: ' . $e->getMessage());
         }
 
 //        $this->dispatch('miEventoLivewire', ['mensaje' => 'Hola desde Livewire']);
@@ -402,7 +371,7 @@ class GestionUsuario extends Component {
             $usuarioSecModel = new ClienteModel();
             $response = $usuarioSecModel->BuscarCliente([
                 "idusuario" => session('usuariologin')['IdUsuario'],
-                "buscar" => $buscar
+                "buscar" => $buscar,
             ]);
 
             // Verificar si la respuesta es válida y tiene éxito

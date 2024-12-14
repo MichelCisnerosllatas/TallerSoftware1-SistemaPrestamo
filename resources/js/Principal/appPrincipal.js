@@ -206,6 +206,24 @@ window.circuleProgressindicatorClose = function (){
     document.getElementById("idcirlculeprogresindicator").style.display = "none";
 }
 
+window.validarcorreoglobal = function (input){
+    let vlidr = false;
+    // const correoField = document.getElementById('correo');
+    const correoRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!correoRegex.test(input.value.trim())) {
+        // correoField.classList.add('input-error'); // Resaltar en rojo
+        Swal.fire({
+            icon: 'error',
+            title: 'Correo inválido',
+            text: 'Por favor, ingresa un correo electrónico válido.',
+        });
+    } else {
+        vlidr = true;
+        // correoField.classList.remove('input-error');
+    }
+    return vlidr;
+}
+
 window.SweetAlertPrincipal2 = function (icon = "info", titulo = null, mensaje = null, footer = null, showCancelButton = false, confirmButtonText = "Aceptar", cancelButtonText = "Cancelar", timer = 0) {
     return Swal.fire({
         icon: icon,

@@ -110,7 +110,7 @@
                             <label for="subject">Observacion:</label>
                         </div>
                         <div class="divlabelsPrestamos">
-                            <textarea id="txtinputObservacionPrestamo" name="subject" placeholder="Escribe aqui..." style="height:200px"></textarea>
+                            <textarea id="txtinputObservacionPrestamo" name="subject" placeholder="Escribe aqui..." style="height:100px"></textarea>
                         </div>
                     </div>
                 </form>

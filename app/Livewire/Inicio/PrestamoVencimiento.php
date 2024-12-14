@@ -6,7 +6,7 @@ use Livewire\Component;
 class PrestamoVencimiento extends Component {
     public array $tablaPrestamoVencimiento = [];
     public array $tablaPrestamoPorVencerce = [];
-    public int $numerodedias = 29;
+    public int $numerodedias = 5;
 
     public int $totalFilasPrestamoVencimiento = 0;
     public int $totalFilasPrestamoPorVencerce = 0;

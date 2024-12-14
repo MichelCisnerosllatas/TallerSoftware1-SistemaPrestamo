@@ -160,6 +160,95 @@ h1, h2 {
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
+
+/* Información perfilEMpresa */
+.card-perfil {
+    background-color: #ffffff;
+    border: 1px solid #dcdde1;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin: 15px auto;
+    max-width: 800px;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: scale(1.02); /* Efecto al pasar el cursor */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.card-header-perfil {
+    background-color: #2562d3; /* Azul oscuro */
+    color: #ffffff;
+    text-align: center;
+    padding: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px 10px 0 0;
+}
+
+.card-header-perfil i {
+    margin-right: 10px;
+    color: #0e0e0e; /* Amarillo para el ícono */
+}
+
+.card-content-perfil {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.card-content-perfil p {
+    font-size: 16px;
+    color: #4a4a4a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ecf0f1;
+    padding-bottom: 10px;
+    margin: 0;
+}
+
+.card-content-perfil p:last-child {
+    border-bottom: none; /* Elimina la línea del último elemento */
+}
+
+.card-content-perfil p span {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.card-content-perfil p span.estado-activo {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.card-content-perfil p span.estado-inactivo {
+    color: #e74c3c;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .card-perfil {
+        padding: 15px;
+        margin: 10px auto;
+    }
+    .card-header-perfil {
+        font-size: 18px;
+    }
+    .card-content-perfil p {
+        font-size: 14px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+
+
+
 /* Responsividad */
 @media (max-width: 768px) {
     .tab-buttons button {

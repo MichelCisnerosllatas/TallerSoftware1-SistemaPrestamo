@@ -102,6 +102,101 @@
     border-color: var(--color-azul-claro); /* Cambia el color del borde al pasar el mouse */
 }
 
+/*TENER CUIDOAD*/
+/* Contenedor principal */
+.content-container-perfil1 {
+    max-width: 1200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
+    background-color: #f3f4f6; /* Fondo suave */
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+    box-sizing: border-box;
+}
 
+/* Tarjeta de perfil */
+.card-perfil {
+
+    background-color: #ffffff;
+    border-radius: 15px; /* Bordes redondeados */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Sombra elegante */
+    padding: 25px 30px;
+    width: 100%;
+    max-width: 1000px; /* Limitar el ancho */
+    max-height: 1000px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    border: 1px solid #e5e7eb; /* Borde sutil */
+}
+
+.card-perfil:hover {
+    transform: translateY(-5px); /* Efecto al pasar el mouse */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Encabezado de la tarjeta */
+.card-header1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2563eb; /* Azul brillante */
+    color: #ffffff;
+    padding: 15px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 10px 10px 0 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.card-header1 i {
+    font-size: 22px; /* Tamaño del ícono */
+    margin-right: 10px;
+}
+
+/* Contenido de la tarjeta */
+.card-content1 {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    color: #374151; /* Texto oscuro */
+    font-size: 16px;
+}
+
+.card-content1 p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+.card-content1 span {
+    font-weight: bold;
+    color: #1f2937; /* Tono más oscuro */
+}
+
+/* Estado del usuario */
+.estado-activo {
+    color: #10b981; /* Verde para activo */
+    font-weight: bold;
+}
+
+.estado-inactivo {
+    color: #ef4444; /* Rojo para inactivo */
+    font-weight: bold;
+}
+
+/* Responsividad */
+@media (max-width: 600px) {
+    .card-perfil {
+        padding: 20px 15px;
+    }
+
+    .card-header1 {
+        font-size: 16px;
+    }
+    .card-content1 {
+        font-size: 14px;
+    }
+}
 

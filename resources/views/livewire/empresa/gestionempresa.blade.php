@@ -1,20 +1,25 @@
 <div>
     @if($isAdministrador)
-
-        <div class="content-container3">
-            <h2>Perfil de la Empresa</h2>
-            <p><strong>Tipo de Empresa:</strong> Publica </p>
-            <p><strong>Nombre Empresa:</strong> Empresa1</p>
-            <p><strong>Identificación:</strong> 111122255 </p>
-            <p><strong>Logo:</strong> NO HAY</p>
-            <p><strong>Departamento:</strong> Loreto</p>
-            <p><strong>Provincia:</strong> Maynas</p>
-            <p><strong>Distrito:</strong> San Juan</p>
-            <p><strong>Dirección:</strong> Calle camelias</p>
-            <p><strong>Estado:</strong> Activo</p>
-            <p><strong>FechaRegistro</strong> hoy </p>
+        <div class="card-perfil">
+            <div class="card-header-perfil">
+                <i class="fas fa-building"></i> Perfil de la Empresa
+            </div>
+            <!-- Mostrar la empresa específica aquí -->
+            @if($empresa)
+                <div class="card-content-perfil">
+                    <p><span>Nombre Empresa: </span>{{ $empresa->NombreEmpresa }}</p>
+                    <p><span>Identificación: </span>{{ $empresa->Identificacion }}</p>
+                    <p><span>Estado:</span>
+                        <span class="{{ $empresa->Estado == 'Activo' ? 'estado-activo' : 'estado-inactivo' }}">
+                             {{ $empresa->Estado }}
+                    </span></p>
+                    <p><span>Fecha Registro: </span>{{ $empresa->FechaRegistro }}</p>
+                    <p><span>Fecha Modificada</span>{{ $empresa->FechaModifica }} ---</p>
+                </div>
+            @else
+                <h1>No hay datos</h1>
+            @endif
         </div>
-
     @else
         <!-- Botones de pestañas -->
         <div class="tab-buttons">
@@ -53,7 +58,7 @@
                             <th>Identificación</th>
                             <th>Estado</th>
                             <th>Fecha Registro</th>
-                            <th>Acción</th>
+
                         </tr>
                         </thead>
                         <tbody>
@@ -64,16 +69,8 @@
                                 <td>{{$d['Identificacion']}}</td>
                                 <td>{{$d['Estado']}}</td>
                                 <td>{{$d['FechaRegistro']}}</td>
-                                <td>
-                                    <div class="button-group">
-                                        <button>Editar</button>
-                                        <button>Eliminar</button>
-                                    </div>
-                                </td>
                             </tr>
-
                         @endforeach
-
                         </tbody>
                     </table>
                 @else
@@ -81,8 +78,7 @@
                 @endif
             </div>
         @elseif ($activeTab === 'create')
-            <!-- Vista para Crear Empresa -->
-            <!-- Vista para Crear Empresa -->
+
             <div class="content-container1">
                 <h2>Crear Nueva Empresa</h2>
                 <!-- Mostrar mensajes de éxito o error -->
@@ -107,15 +103,6 @@
                     <button type="submit" wire:loading.attr="disabled">Guardar Empresa</button>
                     <!-- Mostrar mensaje de carga -->
                 </form>
-            </div>
-        @elseif ($activeTab === 'perfil')
-            <!-- Vista para Perfil Empresa -->
-            <div class="content-container2">
-                <h2>Perfil de la Empresa</h2>
-                <p><strong>Nombre:</strong> {{ $nombreempresa }}</p>
-                <p><strong>Tipo de Empresa:</strong> {{ $idtipoempresa == 1 ? 'Privado' : 'Publico' }}</p>
-                <p><strong>Identificación:</strong> {{ $identificacion }}</p>
-                <p><strong>Estado:</strong> Activo</p>
             </div>
         @endif
     @endif

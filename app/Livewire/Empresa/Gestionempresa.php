@@ -3,6 +3,7 @@
 namespace App\Livewire\Empresa;
 use App\Models\Empresa\Empresa;
 use Livewire\Component;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class Gestionempresa extends Component
@@ -16,43 +17,54 @@ class Gestionempresa extends Component
     public $identificacion;
     public $fecharegistro;
     public $loading = false;
+    public $empresa;
 
     public bool $isAdministrador = false;
 
     public function mount(): void{
+
         if( session('usuariologin')['IdRol'] === '2' || session('usuariologin')['IdRol'] === '3'){
             $this->isAdministrador = true;
         }
+        // Obtener la empresa asociada al usuario logueado desde la sesión
+        $usuario = session('usuariologin');
+
+        // Verificamos que el campo "Empresa" existe y contiene datos
+        if (isset($usuario['Empresa']) && count($usuario['Empresa']) > 0) {
+            // Asignamos el primer objeto de la lista 'Empresa' a la propiedad $empresa
+            $this->empresa = (object) $usuario['Empresa'][0]; // Convertirlo en un objeto para poder acceder a sus propiedades
+        } else {
+            $this->empresa = null; // No se encontró la empresa asociada
+            session()->flash('error', 'No se encontró la empresa asociada a este usuario.');
+        }
+        $this->listarempresa();
     }
     public function setTab($tab): void
     {
         $this->activeTab = $tab;
     }
     public function listarempresa() : void {
+
         try{
             $empresamodel = new Empresa();
-
             $response = $empresamodel-> ListarEmpresa([
                 'tipoempresa' => 2,
                 'pagina' => $this->pagina,
                 'filas' => $this->fila,
-
             ]);
-            if($response["result"]["data"] == null){
-                $this-> datosempresa = [];
-            }else{
-                $this-> datosempresa = $response['result']['data'];
+            if (!isset($response["result"]["data"]) || empty($response["result"]["data"])) {
+                $this->datosempresa = [];
+            } else {
+                $this->datosempresa = $response['result']['data'];
             }
+
         }
         catch(\Exception $ex)
-        {
-            //mostrar mensaje
+        {            //mostrar mensaje
             session()->flash('Error en listar empresa', $ex->getMessage());
-
+            $this->datosempresa = [];
         }
-
     }
-
     public function InsertarEmpresa(): void {
         $this->loading = true;
         $this->fecharegistro = Date('Y-m-d H:i:s');
@@ -146,6 +158,8 @@ class Gestionempresa extends Component
     {
         return view('livewire.empresa.gestionempresa', [
             'isAdministrador' => $this->isAdministrador,
+            'empresa' => $this->empresa,
+
         ]);
     }
 }

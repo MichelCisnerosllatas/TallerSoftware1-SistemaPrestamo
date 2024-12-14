@@ -1,5 +1,5 @@
 <div class="contenido_Perfil">
-    <h3>Yo Soy PERFIL</h3>
+    @livewire('usuario.perfil-usuario')
 </div>
 
 {{--<!doctype html>--}}

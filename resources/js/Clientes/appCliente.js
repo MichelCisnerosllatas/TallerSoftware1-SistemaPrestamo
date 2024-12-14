@@ -69,53 +69,57 @@ document.addEventListener('DOMContentLoaded', function () {
             event.preventDefault();
             if(validardatosParametrosClientes()){
                 // Mostrar el modal de carga mientras se procesa
-                Swal.fire({
-                    title: 'Procesando...',
-                    text: 'Estamos registrando el préstamo, por favor espera.',
-                    allowOutsideClick: false,
-                    didOpen: () => {
-                        Swal.showLoading();a
-                    }
-                });
-
-                const fecha = new Date();
-                const fechaLocal = fecha.getFullYear() + "-" +
-                    ("0" + (fecha.getMonth() + 1)).slice(-2) + "-" +
-                    ("0" + fecha.getDate()).slice(-2) + " " +
-                    ("0" + fecha.getHours()).slice(-2) + ":" +
-                    ("0" + fecha.getMinutes()).slice(-2) + ":" +
-                    ("0" + fecha.getSeconds()).slice(-2);
-
-                // Aquí obtienes el IdCliente del objeto que se pasa en el modal
-                const datosCliente = {
-                    idpersona: document.getElementById('idpersonacliente').value,
-                    idcliente: document.getElementById('idcliente').value,
-                    nombre: document.getElementById('nombre').value,
-                    apellido: document.getElementById('apellido').value,
-                    correo: document.getElementById('correo').value,
-                    celular: document.getElementById('celular').value,
-                    iddistrito: document.getElementById('selectIdDistrito').value,
-                    direccion: document.getElementById('direccionCliente').value,
-                    referencia: document.getElementById('referenciaCliente').value,
-                    tipodoc: document.getElementById('tipodoc').value,
-                    numdoc: document.getElementById('numdoc').value,
-                    fechaRegistro: fechaLocal,
-
-                    //fechaRegistro: new Date().toISOString() // Fecha del navegador
-                };
-
-                // Verifica si Livewire está disponible antes de emitir el evento
-                if (window.Livewire) {
-                    Livewire.dispatch('mantenimientoClienteDesdeJS', [datosCliente]);
-
-                    // Escuchar cuando el proceso ha terminado
-                    Livewire.on('clienteInsertadoExitosamente', () => {
-                        Swal.close();
-                        cerrarModalNuevoCliente();
+                let bool = window.validarcorreoglobal(document.getElementById('correo'));
+                if(bool){
+                    Swal.fire({
+                        title: 'Procesando...',
+                        text: 'Estamos registrando el préstamo, por favor espera.',
+                        allowOutsideClick: false,
+                        didOpen: () => {
+                            Swal.showLoading();a
+                        }
                     });
-                } else {
-                    console.error('Livewire no está disponible');
+
+                    const fecha = new Date();
+                    const fechaLocal = fecha.getFullYear() + "-" +
+                        ("0" + (fecha.getMonth() + 1)).slice(-2) + "-" +
+                        ("0" + fecha.getDate()).slice(-2) + " " +
+                        ("0" + fecha.getHours()).slice(-2) + ":" +
+                        ("0" + fecha.getMinutes()).slice(-2) + ":" +
+                        ("0" + fecha.getSeconds()).slice(-2);
+
+                    // Aquí obtienes el IdCliente del objeto que se pasa en el modal
+                    const datosCliente = {
+                        idpersona: document.getElementById('idpersonacliente').value,
+                        idcliente: document.getElementById('idcliente').value,
+                        nombre: document.getElementById('nombre').value,
+                        apellido: document.getElementById('apellido').value,
+                        correo: document.getElementById('correo').value,
+                        celular: document.getElementById('celular').value,
+                        iddistrito: document.getElementById('selectIdDistrito').value,
+                        direccion: document.getElementById('direccionCliente').value,
+                        referencia: document.getElementById('referenciaCliente').value,
+                        tipodoc: document.getElementById('tipodoc').value,
+                        numdoc: document.getElementById('numdoc').value,
+                        fechaRegistro: fechaLocal,
+
+                        //fechaRegistro: new Date().toISOString() // Fecha del navegador
+                    };
+
+                    // Verifica si Livewire está disponible antes de emitir el evento
+                    if (window.Livewire) {
+                        Livewire.dispatch('mantenimientoClienteDesdeJS', [datosCliente]);
+
+                        // Escuchar cuando el proceso ha terminado
+                        Livewire.on('clienteInsertadoExitosamente', () => {
+                            Swal.close();
+                            cerrarModalNuevoCliente();
+                        });
+                    } else {
+                        console.error('Livewire no está disponible');
+                    }
                 }
+
                 //cerrarModalNuevoCliente();
             }
         }
@@ -274,6 +278,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
         return esValido;
     }
+
+    // function validarCorreoCliente(){
+    //     let vlidr = false;
+    //     const correoField = document.getElementById('correo');
+    //     const correoRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    //     if (!correoRegex.test(correoField.value.trim())) {
+    //         correoField.classList.add('input-error'); // Resaltar en rojo
+    //         Swal.fire({
+    //             icon: 'error',
+    //             title: 'Correo inválido',
+    //             text: 'Por favor, ingresa un correo electrónico válido.',
+    //         });
+    //     } else {
+    //         vlidr = true;
+    //         correoField.classList.remove('input-error');
+    //     }
+    //     return vlidr;
+    // }
 
     Livewire.on('mostrarSweetAlertClienteRegistrado', function () {
         Swal.fire({

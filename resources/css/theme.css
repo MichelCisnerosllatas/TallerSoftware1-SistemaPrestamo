@@ -1,0 +1,202 @@
+:root {
+    --color-azul-marino: rgba(1, 61, 183, 255);
+    --color-blanco: #ffffff;
+    --color-blanco-humo: #E2E8F0;
+    --color-negro: #000000;
+    --color-celeste-claro-1: rgba(217, 231, 250, 1);
+    --color-celeste-claro-2: rgba(236, 243, 252, 1);
+    --color-azul-claro: rgba(50, 132, 255, 1);
+    --color-azul-oscuro: #02146A;
+    --color-rojo: #ff0000;
+    --color-amarillo: rgb(255, 236, 2);
+    --color-naraja: rgba(236, 192, 71, 0.85);
+    --color-verde-claro: rgba(31, 248, 5, 0.85);
+    --color-verde-oscuro: rgba(43, 96, 33, 0.85);
+
+    --font-size-12: 12px;
+    --font-size-14: 14px;
+    --font-size-16: 16px;
+    --font-size-18: 18px;
+
+    --fuente-letra: Poppins, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+
+/*botones */
+
+.buttonPrincipal1 {
+    background: var(--color-azul-marino);
+    border: none;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    display: flex; /* Centrado del contenido */
+    align-items: center; /* Centrado vertical del texto */
+    justify-content: center; /* Centrado horizontal del texto */
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 100%; /* Bordes redondeados */
+    box-sizing: border-box; /* Incluye padding y borde */
+    height: 100%; /* Ocupa toda la altura del contenedor */
+    padding: 0 12px; /* Ajusta el padding horizontal */
+}
+
+.buttonPrincipal2 {
+    background: var(--color-azul-marino);
+    border: none;
+    color: white;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    display: flex; /* Centrado del contenido */
+    align-items: center; /* Centrado vertical del texto */
+    justify-content: center; /* Centrado horizontal del texto */
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 2px; /* Bordes redondeados */
+    box-sizing: border-box; /* Incluye padding y borde */
+    height: 100%; /* Ocupa toda la altura del contenedor */
+    padding: 0 12px; /* Ajusta el padding horizontal */
+    min-width: 40px; /* Evita que el botón sea demasiado pequeño */
+}
+
+
+
+.buttonPrincipal1:hover, .buttonPrincipal2:hover{
+    background-color: var(--color-azul-claro);
+}
+
+.buttonPrincipal1:focus, .buttonPrincipal2:focus {
+    /*outline: 2px solid var(--color-amarillo);*/
+    outline-offset: 2px;
+    background-color: var(--color-azul-oscuro);
+}
+
+/*Select */
+.select {
+    padding: 8px 12px; /* Ajusta el padding para un diseño más espacioso */
+    width: auto; /* Quita el ancho 100% para evitar que sea demasiado amplio */
+    min-width: 300px; /* Establece un ancho mínimo */
+    border: 1px solid var(--color-blanco-humo); /* Usa el color blanco humo */
+    border-radius: 4px; /* Bordes redondeados */
+    font-size: 14px; /* Tamaño uniforme del texto */
+    color: var(--color-azul-oscuro); /* Texto azul oscuro */
+    background-color: var(--color-blanco); /* Fondo blanco */
+    background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="gray"%3E%3Cpath d="M7 10l5 5 5-5z"/%3E%3C/svg%3E'); /* Flecha personalizada */
+    background-position: right 10px center; /* Posición de la flecha */
+    background-repeat: no-repeat; /* Evita repeticiones de la flecha */
+    background-size: 12px; /* Tamaño de la flecha */
+    appearance: none; /* Elimina el estilo nativo */
+    -webkit-appearance: none; /* Compatibilidad con WebKit */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    box-sizing: border-box; /* Asegura un tamaño consistente */
+}
+
+.select:focus {
+    outline: 2px solid var(--color-azul-claro); /* Resalta el borde al enfocarse */
+    outline-offset: 2px; /* Espaciado entre el borde y el contorno */
+}
+
+.select:hover {
+    border-color: var(--color-azul-claro); /* Cambia el color del borde al pasar el mouse */
+}
+
+/*TENER CUIDOAD*/
+/* Contenedor principal */
+.content-container-perfil1 {
+    max-width: 1200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #f3f4f6; /* Fondo suave */
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Tarjeta de perfil */
+.card-perfil {
+
+    background-color: #ffffff;
+    border-radius: 15px; /* Bordes redondeados */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Sombra elegante */
+    padding: 25px 30px;
+    width: 100%;
+    max-width: 1000px; /* Limitar el ancho */
+    max-height: 1000px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    border: 1px solid #e5e7eb; /* Borde sutil */
+}
+
+.card-perfil:hover {
+    transform: translateY(-5px); /* Efecto al pasar el mouse */
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Encabezado de la tarjeta */
+.card-header1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2563eb; /* Azul brillante */
+    color: #ffffff;
+    padding: 15px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 10px 10px 0 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.card-header1 i {
+    font-size: 22px; /* Tamaño del ícono */
+    margin-right: 10px;
+}
+
+/* Contenido de la tarjeta */
+.card-content1 {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    color: #374151; /* Texto oscuro */
+    font-size: 16px;
+}
+
+.card-content1 p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+.card-content1 span {
+    font-weight: bold;
+    color: #1f2937; /* Tono más oscuro */
+}
+
+/* Estado del usuario */
+.estado-activo {
+    color: #10b981; /* Verde para activo */
+    font-weight: bold;
+}
+
+.estado-inactivo {
+    color: #ef4444; /* Rojo para inactivo */
+    font-weight: bold;
+}
+
+/* Responsividad */
+@media (max-width: 600px) {
+    .card-perfil {
+        padding: 20px 15px;
+    }
+
+    .card-header1 {
+        font-size: 16px;
+    }
+    .card-content1 {
+        font-size: 14px;
+    }
+}
+

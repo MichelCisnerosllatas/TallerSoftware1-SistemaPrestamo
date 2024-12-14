@@ -1,0 +1,215 @@
+@import "../theme.css";
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--fuente-letra);
+}
+
+body {
+    min-height: 100vh;
+    background: var(--color-blanco-humo);
+    line-height: 1.5rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+}
+
+.menu_navegacion {
+    height: 100vh;
+    overflow-y: auto; /* Agrega scroll vertical si el contenido excede el tamaño del contenedor */
+    overflow-x: hidden; /* Evita el scroll horizontal */
+    width: 170px; /* Ancho original */
+    padding: 5px 1em;
+    background-color: var(--color-azul-marino);
+    border-right: 1px solid var(--color-blanco);
+    position: sticky;
+    top: 0;
+    align-self: start;
+    transition: width 300ms ease-in-out; /* Suaviza el cambio de ancho */
+    z-index: 1; /* Asegúrate de que el menú tenga un z-index bajo */
+}
+.menu_navegacion .logo, .menu_navegacion .btndrawer{
+    display: none;
+}
+
+.menu_navegacion ul {
+    list-style: none;
+}
+.menu_navegacion > ul > li:first-child {
+    display: flex;
+    justify-content: space-evenly;
+}
+.menu_navegacion ul li a {
+    border-radius: 10px;
+    display: flex;
+    padding: .50em;
+    align-items: center;
+    gap: 1em;
+    cursor: pointer;
+    color: var(--color-blanco);
+    font-weight: bold;
+    text-decoration: none;
+    position: relative; /* Para el tooltip */
+}
+.menu_navegacion ul li a:hover {
+    background: var(--color-azul-claro);
+    /*border: 1px solid var(--color-azul-oscuro);*/
+}
+
+/* Estilos para el menú colapsado */
+.menu_navegacion.collapse {
+    padding: 5px;
+    width: 50px; /* Ancho del menú colapsado */
+}
+
+.menu_navegacion a.active {
+    background-color: var(--color-negro); /* Elige el color que prefieras */
+    color: var(--color-blanco-humo); /* Cambiar el color del texto si lo deseas */
+    font-weight: bold; /* Opcional, para hacer que el texto se vea más destacado */
+}
+
+
+.menu_navegacion.collapse ul li span {
+    display: none; /* Oculta el texto en colapsado */
+}
+
+/* Para mostrar el tooltip */
+.menu_navegacion ul li {
+    position: relative; /* Para el tooltip */
+}
+
+
+/* Estilos para el overlay (fondo oscuro) */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo oscuro con transparencia */
+    display: none; /* Oculto por defecto */
+    z-index: 999; /* Justo debajo del menú */
+}
+
+/* Mostrar el overlay cuando el menú está abierto */
+.menu_navegacion.menu-open ~ .overlay {
+    display: block;
+}
+
+
+
+/* CABEZERA */
+.menu_cabezera {
+    width: 100%; /* Asegura que ocupe todo el ancho */
+    height: 35px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Centra verticalmente los elementos */
+    background: var(--color-azul-marino);
+    color: var(--color-blanco);
+    z-index: 2;
+    padding-left: 10px;
+    padding-right: 10px;
+    top: 0;
+    position: fixed;
+    left: 0;
+    right: 0;
+
+
+    /*position: sticky;*/
+    /*display: flex;*/
+    /*justify-content: space-between;*/
+    /*align-items: center;*/
+    /*background: var(--color-azul-marino);*/
+    /*color: var(--color-blanco);*/
+    /*z-index: 2;*/
+    /*top: 0;*/
+}
+.menu_cabezera .divmenu_labelcabezera{
+    width: 215px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Estilo para el botón de hamburguesa */
+#btnmenu {
+    /*background-color: var(--color-azul-claro);*/
+    background-color: transparent;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    z-index: 2; /* Asegúrate de que el botón de hamburguesa esté por encima del menú */
+}
+
+#btnmenu:hover {
+    background-color: var(--color-azul-claro);
+}
+
+
+
+/*Estilo del contenedor*/
+.div_contenedor {
+    background: var(--color-blanco-humo);
+    border-radius: 20px;
+    margin: 40px 10px 0px 10px;
+    /*height: auto;*/
+    overflow-y: auto; /* Si el contenido es más grande, permite hacer scroll */
+}
+
+.sweet-alert-popup {
+    z-index: 9999 !important;  /* Asegura que SweetAlert esté por encima de otros elementos */
+}
+
+@media only screen and (max-width: 600px) {
+    body {
+        display: block; /* Cambia de grid a block para móviles */
+    }
+
+    .menu_cabezera{
+        height: 50px;
+    }
+
+    .menu_cabezera .divmenu_labelcabezera{
+        width: auto;
+    }
+    .menu_cabezera .divmenu_labelcabezera h4{
+        display: none;
+    }
+
+    .menu_navegacion {
+        position: fixed;
+        left: -180px; /* Oculto fuera de la pantalla por defecto */
+        top: 0;
+        width: 180px;
+        height: 100vh;
+        transition: left 0.3s ease-in-out; /* Transición suave para el drawer */
+        z-index: 1000; /* Asegúrate de que esté sobre el contenido principal */
+        background-color: var(--color-azul-marino); /* Fijo para que sea como un drawer */
+    }
+
+    /* Cuando el menú está abierto */
+    .menu_navegacion.menu-open {
+        left: 0; /* Mueve el menú a la pantalla */
+        width: 180px;
+    }
+
+    .menu_navegacion.menu-close {
+        left: -180px;
+    }
+
+    .menu_navegacion.collapse ul li span {
+        display: flex; /* Oculta el texto en colapsado */
+    }
+
+    .menu_navegacion .logo, .menu_navegacion .btndrawer{
+        display: block;
+    }
+
+    .div_contenedor{
+        margin: 60px 10px 0 10px;
+    }
+}

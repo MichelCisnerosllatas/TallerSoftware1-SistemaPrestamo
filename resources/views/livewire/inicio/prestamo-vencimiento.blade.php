@@ -25,7 +25,7 @@
             </table>
         @else
             <div style="display: flex; justify-content: center">
-                <h5>No Hay Prestamo por venserce</h5>
+                <h5>No Hay Prestamo por vencerse</h5>
             </div>
         @endif
     </div>

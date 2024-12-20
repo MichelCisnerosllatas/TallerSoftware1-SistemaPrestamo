@@ -183,7 +183,7 @@
                 <button class="dropbtn">Hola, {{ session('usuariologin')['Nombre'] ?? 'Error'}}</button>
                 <div id="myDropdown" class="dropdown-content">
                     <a href="/Perfil">Mi Perfil</a>
-                    <a href="/Ajustes">Configuración</a>
+{{--                    <a href="/Ajustes">Configuración</a>--}}
                     <a href="/logout">Cerrar Sesión</a> <!-- El enlace ahora llama a logoutUser() -->
                 </div>
             </div>

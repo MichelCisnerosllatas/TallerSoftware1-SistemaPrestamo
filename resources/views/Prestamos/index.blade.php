@@ -127,7 +127,7 @@
                 <div style="display: flex; justify-content: space-between;">
                     <label>Monto Cuota:</label>
                     <div style="display: flex;">
-                        <label style="font-weight: bold">S/. </label>
+                        <label style="font-weight: bold"></label>
                         <label id="labelValorMontoCuotaPrestamo" style="font-weight: bold">0.00</label>
                     </div>
                 </div>
@@ -142,7 +142,7 @@
                 <div style="display: flex; justify-content: space-between;">
                     <label>Monto Interes:</label>
                     <div style="display: flex;">
-                        <label style="font-weight: bold">S/. </label>
+                        <label style="font-weight: bold"></label>
                         <label id="labelValorMontoInteresPrestamo" style="font-weight: bold">0.00</label>
                     </div>
                 </div>

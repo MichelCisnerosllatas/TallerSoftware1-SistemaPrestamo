@@ -31,7 +31,7 @@
                         <input type="email" id="correo" wire:model="correo">
 
                         <label for="celular">Celular:</label>
-                        <input type="number" id="celular" wire:model="celular" class="@error('celular') input-error @enderror" required>
+                        <input type="number" maxlength="9" id="celular" wire:model="celular" class="@error('celular') input-error @enderror" required>
                         @error('celular') <span class="error-message">{{ $message }}</span> @enderror
 
                         <div class="input-group">

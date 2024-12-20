@@ -199,6 +199,29 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    document.querySelector(".div_contenedor").addEventListener('input', function (event) {
+        if (event.target.id === 'celular') {
+
+            let inputcelular = document.getElementById("celular"); //Obtenemos el Html del Input
+            let numerocadena = inputcelular.value.length; //Obtenemos el numero de caracteres del Input
+
+            //si es mayor a 9 no me deja escribir mas
+            if(numerocadena > 9){
+                inputcelular.value = inputcelular.value.slice(0.,9);
+                numerocadena = inputcelular.value.length;
+            }
+
+            //si es menor de 9 caracteres me pit el fondo de rojo
+            if(numerocadena !== 9){
+                inputcelular.style.background = "#ffbfaa";
+            }
+            else{
+                inputcelular.style.background = "#ffffff";
+            }
+        }
+    });
+
+
     function buscarCliente(buscar) {
         if (window.Livewire) {
             if (buscar.trim() === '') {
